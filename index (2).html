@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monsoon Bean Coffee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Jost:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: editorial coffee house. Thin announcement bar, sticky glass header, page router (Home / Menu / Our Coffee / Rewards / Gift Cards / Stores),
+   full-bleed forest hero with a slow brass badge, origin marquee, snap carousels, big multi-column footer. Bodoni Moda for display, Jost for UI. */
+:root{
+  --paper:#FAF9F6; --surface:#FFFFFF; --alt:#EEF2EF; --ink:#141B18; --muted:#5D6762; --line:#E3E3DD;
+  --forest:#12352F; --forest-2:#1D4A41; --on-forest:#F1F4F1; --brass:#B88A3D; --brass-ink:#1A1408; --sale:#1D7A5C; --danger:#B23B30;
+  --display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body:"Jost", "Futura", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --r:18px; --gut:clamp(16px,4vw,56px); --max:1320px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1412; --surface:#151D1A; --alt:#1A2420; --ink:#ECEFEB; --muted:#A2ACA6; --line:#2A3531;
+  --forest:#0B231F; --forest-2:#163B34; --on-forest:#E8EEEA; --brass:#D2A658; --brass-ink:#1A1408; --sale:#4FC197; --danger:#E26B5E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1412; --surface:#151D1A; --alt:#1A2420; --ink:#ECEFEB; --muted:#A2ACA6; --line:#2A3531;
+  --forest:#0B231F; --forest-2:#163B34; --on-forest:#E8EEEA; --brass:#D2A658; --brass-ink:#1A1408; --sale:#4FC197; --danger:#E26B5E; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;margin:0;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);font-weight:500;line-height:1.05;margin:0;text-wrap:balance;letter-spacing:-.01em}
+em{font-style:italic}
+a{color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.container{max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
+.kicker{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--brass)}
+.lead{font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:52ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:14px 26px;font-weight:600;font-size:15px;letter-spacing:.02em;text-decoration:none;border:1.5px solid transparent;transition:transform .2s,background .2s,color .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-brass{background:var(--brass);color:var(--brass-ink)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-line{border-color:currentColor;background:transparent;color:inherit}
+.btn-sm{padding:9px 18px;font-size:14px}
+.arrow{display:inline-block;transition:transform .2s}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* announcement + header */
+.announce{background:var(--forest);color:var(--on-forest);text-align:center;font-size:13px;letter-spacing:.06em;padding:9px 16px}
+.announce a{color:var(--brass);font-weight:600;text-decoration:none;margin-left:8px}
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.header .container{display:flex;align-items:center;gap:36px;height:84px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand svg{width:44px;height:44px;flex:none}
+.brand b{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.14em;text-transform:uppercase;line-height:1}
+.brand small{display:block;font-size:9.5px;letter-spacing:.42em;color:var(--muted);margin-top:4px;font-family:var(--body)}
+.mainnav{display:flex;gap:26px;margin-right:auto}
+.mainnav a{text-decoration:none;font-size:13.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:6px 0;border-bottom:1.5px solid transparent}
+.mainnav a:hover,.mainnav a.on{border-color:var(--brass)}
+.tools{display:flex;align-items:center;gap:12px}
+.findlink{display:flex;align-items:center;gap:7px;text-decoration:none;font-weight:500;font-size:14.5px;margin-right:8px}
+.findlink svg{width:15px;height:19px}
+.pill{border-radius:999px;padding:9px 18px;font-weight:600;font-size:14px;border:1.5px solid var(--ink);white-space:nowrap;background:transparent;color:var(--ink)}
+.pill.solid{background:var(--ink);color:var(--paper)}
+.hello{font-size:14px;font-weight:600;white-space:nowrap}
+.cartbtn{position:relative;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center}
+.cartbtn svg{width:20px;height:20px}
+.cartbtn .badge{position:absolute;top:-4px;right:-4px;background:var(--brass);color:var(--brass-ink);font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:999px;display:grid;place-items:center;padding:0 5px}
+.burger{display:none;width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+@media (max-width:1180px){.findlink{display:none}}
+@media (max-width:1020px){
+  .burger{display:grid;place-items:center}
+  .mainnav{position:absolute;top:84px;left:0;right:0;flex-direction:column;gap:0;background:var(--paper);border-bottom:1px solid var(--line);padding:8px var(--gut) 18px;display:none}
+  .mainnav.open{display:flex}
+  .mainnav a{padding:14px 0;border-bottom:1px solid var(--line)}
+  .header .container{gap:14px}
+  .brand{margin-right:auto}
+}
+@media (max-width:560px){.brand b{font-size:17px}.brand small{display:none}.hello{display:none}.pill{padding:7px 12px;font-size:13px}.tools .pill.outline-only{display:none}}
+
+/* cart dropdown */
+.scrim{position:fixed;inset:0;z-index:40}
+.cartbox{position:fixed;top:calc(96px + env(safe-area-inset-top,0px));right:var(--gut);width:min(360px,calc(100% - 32px));max-height:72vh;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);z-index:50;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.18)}
+.cartbox header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.cartbox h3{font-size:22px}
+.x{border:0;background:transparent;color:var(--ink);font-size:26px;line-height:1;padding:4px 8px}
+.lines{overflow:auto;padding:12px 18px;display:grid;gap:12px;align-content:start}
+.line{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding-bottom:12px;border-bottom:1px solid var(--line);font-size:15px}
+.line small{color:var(--muted)}
+.qty{display:flex;gap:8px;align-items:center}
+.qty button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+.totals{padding:12px 18px 18px;border-top:1px solid var(--line);display:grid;gap:6px;font-variant-numeric:tabular-nums;font-size:15px}
+.totals>div{display:flex;justify-content:space-between;gap:10px}
+.totals .grand{font-weight:700;font-size:18px}
+.save{color:var(--sale);font-weight:600}
+.offer{display:block!important;background:var(--alt);border-radius:12px;padding:10px 12px;font-size:14px}
+.empty{color:var(--muted);text-align:center;padding:14px 4px;font-size:15px}
+.dots{display:inline-flex;gap:6px;vertical-align:middle}
+.dots i{width:18px;height:18px;border-radius:50%;border:2px solid var(--brass);display:inline-block}
+.dots i.on{background:var(--brass)}
+
+/* hero */
+.hero{background:var(--forest);color:var(--on-forest);position:relative;overflow:hidden}
+.hero .container{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding-block:clamp(48px,7vw,96px)}
+.hero h1{font-size:clamp(46px,7vw,104px);font-weight:400;color:var(--on-forest)}
+.hero h1 em{color:var(--brass)}
+.hero .lead{color:color-mix(in srgb,var(--on-forest) 78%,transparent);margin:24px 0 34px}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
+.hero .stats{display:flex;gap:40px;margin-top:48px;flex-wrap:wrap}
+.hero .stats b{display:block;font-family:var(--display);font-size:36px;font-weight:500;color:var(--brass);line-height:1}
+.hero .stats span{font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.hero-art{position:relative;max-width:560px;width:100%;justify-self:end}
+.hero-art svg{width:100%;height:auto;display:block}
+.spin{transform-origin:110px 110px}
+@media (prefers-reduced-motion:no-preference){.spin{animation:spin 40s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}}
+@media (max-width:860px){.hero .container{grid-template-columns:1fr}.hero-art{justify-self:center;max-width:420px}}
+
+/* marquee */
+.marquee{background:var(--brass);color:var(--brass-ink);overflow:hidden;white-space:nowrap;border-block:1px solid color-mix(in srgb,var(--brass-ink) 20%,transparent)}
+.marquee .track{display:inline-flex;gap:40px;padding:16px 0;font-family:var(--display);font-style:italic;font-size:22px}
+.marquee .track span::after{content:"✦";font-style:normal;font-size:14px;margin-left:40px;vertical-align:middle}
+@media (prefers-reduced-motion:no-preference){.marquee .track{animation:slide 45s linear infinite}@keyframes slide{to{transform:translateX(-50%)}}}
+
+/* generic sections */
+.sec{padding-block:clamp(64px,8vw,120px)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.sec-head h2{font-size:clamp(36px,4.6vw,64px);margin-top:12px}
+.sec-head .link{font-weight:600;text-decoration:none;border-bottom:1.5px solid var(--brass);padding-bottom:2px}
+
+/* feature split */
+.feature{display:grid;grid-template-columns:1fr 1fr;border-radius:28px;overflow:hidden;min-height:clamp(380px,40vw,560px)}
+.feature .art{background:#E7C7A2;position:relative;min-height:300px}
+.feature .art svg{position:absolute;inset:0;width:100%;height:100%}
+.feature .copy{background:var(--forest-2);color:var(--on-forest);display:grid;align-content:center;gap:22px;padding:clamp(32px,5vw,72px)}
+.feature h2{font-size:clamp(34px,4vw,56px);color:var(--on-forest)}
+.feature h2 em{color:var(--brass)}
+.feature p{margin:0;font-size:18px;max-width:40ch;opacity:.88}
+.feature .btn{justify-self:start}
+@media (max-width:820px){.feature{grid-template-columns:1fr}}
+
+/* carousel */
+.carousel{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;scrollbar-width:thin}
+.carousel>*{scroll-snap-align:start}
+@media (min-width:1100px){.carousel{grid-auto-columns:calc((100% - 66px)/4)}}
+.car-nav{display:flex;gap:10px}
+.car-nav button{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-size:20px}
+
+/* product card */
+.card{background:var(--surface);border-radius:var(--r);padding:14px 14px 18px;display:flex;flex-direction:column;gap:10px;min-width:0;border:1px solid var(--line);transition:box-shadow .25s,transform .25s}
+.card:hover{box-shadow:0 18px 40px rgba(0,0,0,.08);transform:translateY(-2px)}
+.card .pic{border-radius:14px;height:170px;display:grid;place-items:center;position:relative}
+.card .pic svg{height:128px}
+.card .flag{position:absolute;top:10px;left:10px;background:var(--surface);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;padding:4px 10px}
+.card h3{font-size:22px;padding-inline:4px}
+.card p{margin:0;color:var(--muted);font-size:14.5px;flex:1;padding-inline:4px}
+.card .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-inline:4px}
+.price{font-weight:600;font-variant-numeric:tabular-nums;font-size:17px}
+.card select{border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:var(--paper);color:var(--ink);font-size:13.5px;max-width:60%}
+.one{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.add{background:var(--ink);color:var(--paper);border:0;border-radius:999px;padding:11px 16px;font-weight:600;font-size:14px;margin-inline:4px}
+.add:hover{background:var(--forest-2);color:var(--on-forest)}
+
+/* story steps */
+.story{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px)}
+.step{border-top:1.5px solid var(--ink);padding-top:22px;display:grid;gap:12px}
+.step .n{font-family:var(--display);font-style:italic;font-size:44px;color:var(--brass);line-height:1}
+.step h3{font-size:28px}
+.step p{margin:0;color:var(--muted)}
+@media (max-width:820px){.story{grid-template-columns:1fr}}
+
+/* rewards band */
+.band{background:var(--forest);color:var(--on-forest);border-radius:28px;padding:clamp(32px,6vw,80px);display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+.band h2{font-size:clamp(36px,4.6vw,64px);color:var(--on-forest)}
+.band h2 em{color:var(--brass)}
+.band .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.band .nums div{border-left:1px solid color-mix(in srgb,var(--on-forest) 25%,transparent);padding-left:16px}
+.band .nums b{display:block;font-family:var(--display);font-size:clamp(40px,4.4vw,64px);font-weight:500;color:var(--brass);line-height:1}
+.band .nums span{font-size:14px;opacity:.85}
+@media (max-width:860px){.band{grid-template-columns:1fr}}
+
+/* duo promos */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.promo{border-radius:24px;padding:clamp(28px,4vw,48px);display:grid;gap:14px;align-content:end;min-height:340px;position:relative;overflow:hidden}
+.promo h3{font-size:clamp(30px,3vw,42px)}
+.promo p{margin:0;max-width:36ch}
+.promo .btn{justify-self:start}
+.promo.gift{background:var(--alt)}
+.promo.app{background:var(--brass);color:var(--brass-ink)}
+.promo .deco{position:absolute;top:24px;right:24px;width:44%;max-width:220px}
+@media (max-width:820px){.duo{grid-template-columns:1fr}}
+
+/* newsletter */
+.news{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-block:56px}
+.news h2{font-size:clamp(32px,3.6vw,48px)}
+.news form{display:flex;gap:10px;flex-wrap:wrap}
+.news input{flex:1;min-width:200px;border:1.5px solid var(--ink);border-radius:999px;padding:13px 20px;background:transparent;color:var(--ink)}
+.msg{font-size:14px;color:var(--sale);margin:8px 0 0;width:100%}
+@media (max-width:820px){.news{grid-template-columns:1fr}}
+
+/* page headers */
+.phead{background:var(--alt);padding-block:clamp(48px,6vw,88px)}
+.phead h1{font-size:clamp(44px,6vw,88px);font-weight:400;margin-top:14px}
+.phead h1 em{color:var(--brass)}
+.phead .lead{margin-top:18px}
+
+/* menu page */
+.menu-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:56px;padding-block:48px 96px}
+.side{position:sticky;top:110px;align-self:start;max-height:calc(100vh - 130px);overflow:auto;display:grid;gap:20px;padding-right:6px}
+.side .catbtn{display:block;background:transparent;border:0;padding:0 0 6px;color:var(--ink);font-weight:600;font-size:15px;text-align:left}
+.side .subs button{display:block;background:transparent;border:0;padding:4px 0;color:var(--muted);font-size:14.5px;text-align:left}
+.side .subs button:hover,.side .subs button[aria-current="true"]{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.search{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:999px;padding:4px 6px 4px 18px;background:var(--surface);margin-bottom:34px;max-width:520px}
+.search input{flex:1;border:0;background:transparent;color:var(--ink);padding:10px 0;outline:none;min-width:0}
+.search svg{width:18px;height:18px;color:var(--muted)}
+.cat{margin-bottom:48px}
+.cat h2{font-size:clamp(28px,3vw,38px);padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:26px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:26px 32px}
+.tile{display:flex;align-items:center;gap:20px;background:transparent;border:0;color:var(--ink);text-align:left;font-size:17px;font-weight:500;padding:0}
+.tile .circle{width:104px;height:104px;flex:none;border-radius:50%;background:var(--forest);display:grid;place-items:center;transition:transform .3s}
+.tile .circle svg{height:80px}
+.tile:hover .circle{transform:scale(1.06)}
+.tile small{display:block;color:var(--muted);font-size:13px;font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.crumb{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px;margin-bottom:12px}
+.crumb button{background:transparent;border:0;padding:0;color:var(--brass);font-weight:600}
+.subtitle{font-size:clamp(34px,4vw,52px);margin-bottom:28px}
+.subtitle span{font-family:var(--body);font-size:16px;color:var(--muted);font-weight:400;margin-left:8px}
+@media (max-width:900px){
+  .menu-layout{grid-template-columns:1fr;gap:20px;padding-top:24px}
+  .side{position:static;max-height:none;display:flex;overflow-x:auto;gap:8px;padding-bottom:8px}
+  .side .subs{display:none}
+  .side .mcat{flex:none}
+  .side .catbtn{border:1px solid var(--line);border-radius:999px;padding:8px 16px;white-space:nowrap}
+}
+
+/* coffee page */
+.origins{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.origin{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:10px}
+.origin h3{font-size:30px}
+.origin dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:6px 0 0;font-size:14.5px}
+.origin dt{color:var(--muted)}
+.origin dd{margin:0;font-weight:500}
+.notes{display:flex;gap:6px;flex-wrap:wrap}
+.notes span{background:var(--alt);border-radius:999px;padding:4px 12px;font-size:13px}
+@media (max-width:980px){.origins{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.origins{grid-template-columns:1fr}}
+.roast{display:grid;gap:18px;max-width:760px}
+.roast .bar{height:14px;border-radius:999px;background:linear-gradient(90deg,#D9B27A,#9C6B3E 50%,#2E1A10)}
+.roast .labels{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}
+.roast-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.roast-cards div{border-top:3px solid var(--c);padding-top:14px}
+.roast-cards h4{font-size:24px;margin-bottom:6px}
+.roast-cards p{margin:0;color:var(--muted);font-size:15px}
+@media (max-width:700px){.roast-cards{grid-template-columns:1fr}}
+
+/* rewards page */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tier{border-radius:var(--r);padding:30px;display:grid;gap:12px;align-content:start;border:1px solid var(--line);background:var(--surface)}
+.tier .big{font-family:var(--display);font-size:56px;line-height:1;color:var(--brass)}
+.tier h3{font-size:26px}
+.tier p{margin:0;color:var(--muted)}
+.tier.hi{background:var(--forest);color:var(--on-forest);border-color:var(--forest)}
+.tier.hi p{color:color-mix(in srgb,var(--on-forest) 80%,transparent)}
+@media (max-width:860px){.tiers{grid-template-columns:1fr}}
+.account{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:30px;display:grid;gap:14px;align-content:start}
+.panel h3{font-size:28px}
+.beans{font-family:var(--display);font-size:72px;line-height:1;color:var(--brass)}
+.meter{height:10px;background:var(--alt);border-radius:999px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--brass);border-radius:999px}
+.note{color:var(--muted);font-size:14.5px;margin:0}
+.history{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14.5px}
+.history li{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px;font-variant-numeric:tabular-nums}
+@media (max-width:860px){.account{grid-template-columns:1fr}}
+
+/* gift cards */
+.gift-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start;padding-block:56px 96px}
+.giftcard{aspect-ratio:1.6/1;max-width:100%;border-radius:22px;position:relative;overflow:hidden;padding:28px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;box-shadow:0 30px 60px rgba(0,0,0,.18)}
+.giftcard b{font-family:var(--display);font-size:clamp(22px,2.4vw,30px);font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+.giftcard .amt{font-family:var(--display);font-size:clamp(40px,5vw,64px);line-height:1}
+.giftcard .to{font-size:14px;opacity:.9}
+.gc-monsoon{background:radial-gradient(circle at 80% 20%,#2A6B60,#0E2E28 70%)}
+.gc-monsoon::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(105deg,rgba(255,255,255,.08) 0 2px,transparent 2px 22px)}
+.gc-brass{background:linear-gradient(135deg,#E0B867,#9C7024);color:#1A1408}
+.gc-brass::before{content:"";position:absolute;right:-60px;bottom:-60px;width:260px;height:260px;border-radius:50%;border:2px solid rgba(26,20,8,.25)}
+.gc-bloom{background:linear-gradient(160deg,#F2C6C2,#B9536A)}
+.gc-bloom::before{content:"";position:absolute;left:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.18)}
+.giftcard>*{position:relative}
+.designs{display:flex;gap:12px;margin-top:20px}
+.designs button{width:84px;aspect-ratio:1.6/1;border-radius:10px;border:2px solid transparent;padding:0}
+.designs button[aria-pressed="true"]{border-color:var(--ink);outline:2px solid var(--paper);outline-offset:-4px}
+.gform{display:grid;gap:16px}
+.gform label{display:grid;gap:6px;font-size:14px;font-weight:600}
+.gform input{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface);color:var(--ink)}
+.amts{display:flex;gap:10px;flex-wrap:wrap}
+.amts button{border:1.5px solid var(--line);border-radius:999px;padding:9px 18px;background:var(--surface);color:var(--ink);font-weight:600}
+.amts button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+@media (max-width:900px){.gift-layout{grid-template-columns:1fr}}
+
+/* stores */
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.store{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:8px}
+.store h3{font-size:26px}
+.store p{margin:0;color:var(--muted);font-size:15px}
+.status{font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.status.open{color:var(--sale)}
+.status.closed{color:var(--danger)}
+.amen{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.amen span{background:var(--alt);border-radius:999px;padding:3px 10px;font-size:12.5px}
+@media (max-width:980px){.store-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.store-grid{grid-template-columns:1fr}}
+
+/* footer */
+.footer{background:var(--forest);color:var(--on-forest);padding-block:72px 40px;margin-top:0}
+.fgrid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px}
+.footer h4{font-family:var(--body);font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--brass);margin-bottom:16px}
+.footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.footer a,.footer .fbtn{color:color-mix(in srgb,var(--on-forest) 85%,transparent);text-decoration:none;background:transparent;border:0;padding:0;text-align:left;font-size:15px}
+.footer a:hover,.footer .fbtn:hover{color:var(--on-forest);text-decoration:underline}
+.footer .brand b{color:var(--on-forest)}
+.footer .brand small{color:color-mix(in srgb,var(--on-forest) 60%,transparent)}
+.footer .about{margin:18px 0 0;max-width:34ch;opacity:.8;font-size:15px}
+.social{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.social a{border:1px solid color-mix(in srgb,var(--on-forest) 35%,transparent);border-radius:999px;padding:7px 14px;font-size:13.5px!important}
+.social a:hover{background:var(--on-forest);color:var(--forest)!important;text-decoration:none!important}
+.fbottom{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;border-top:1px solid color-mix(in srgb,var(--on-forest) 18%,transparent);margin-top:56px;padding-top:24px;font-size:14px;opacity:.85}
+.fbottom ul{display:flex;gap:20px;flex-wrap:wrap}
+@media (max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.fgrid{grid-template-columns:1fr}}
+
+
+/* why choose us */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.reason{padding:clamp(24px,3vw,40px);border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:12px;align-content:start}
+.reason svg{width:44px;height:44px;color:var(--brass)}
+.reason h3{font-size:26px}
+.reason p{margin:0;color:var(--muted)}
+@media (max-width:900px){.why{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.why{grid-template-columns:1fr}}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(200px,20vw,280px);gap:16px}
+.shot{position:relative;margin:0;border-radius:20px;overflow:hidden;background:var(--forest)}
+.shot svg,.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+.shot:hover svg,.shot:hover img{transform:scale(1.04)}
+.shot figcaption{position:absolute;left:0;right:0;bottom:0;padding:48px 20px 18px;background:linear-gradient(transparent,rgba(5,12,10,.82));color:#F4F1EC;display:grid;gap:2px}
+.shot figcaption b{font-family:var(--display);font-size:clamp(20px,2vw,26px);font-weight:500}
+.shot figcaption span{font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.s-wide{grid-column:span 2}
+.s-tall{grid-row:span 2}
+@media (max-width:900px){.gallery{grid-template-columns:1fr 1fr}.s-wide{grid-column:span 2}}
+@media (max-width:560px){.gallery{grid-template-columns:1fr;grid-auto-rows:240px}.s-wide{grid-column:auto}.s-tall{grid-row:auto}}
+
+/* reviews */
+.rv-top{display:grid;grid-template-columns:300px 1fr;gap:48px;align-items:start}
+.rv-sum{display:grid;gap:10px;position:sticky;top:110px}
+.rv-sum .avg{font-family:var(--display);font-size:88px;line-height:1}
+.stars{color:var(--brass);letter-spacing:2px;font-size:18px}
+.bars{display:grid;gap:6px;font-size:13.5px;font-variant-numeric:tabular-nums}
+.bars div{display:grid;grid-template-columns:30px 1fr 30px;gap:10px;align-items:center}
+.bars i{display:block;height:6px;border-radius:999px;background:var(--alt);overflow:hidden}
+.bars i b{display:block;height:100%;background:var(--brass)}
+.rv-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.review{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:10px;align-content:start}
+.review p{margin:0;font-family:var(--display);font-size:19px;line-height:1.45}
+.review .who{display:flex;align-items:center;gap:12px;font-size:14px}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--forest-2);color:var(--on-forest);display:grid;place-items:center;font-weight:600}
+.who small{display:block;color:var(--muted)}
+.sample{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px;justify-self:start}
+.rate-pick{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:4px}
+.rate-pick input{position:absolute;opacity:0;width:1px;height:1px}
+.rate-pick label{font-size:30px;color:var(--line);cursor:pointer;display:block!important;line-height:1}
+.rate-pick input:checked ~ label,.rate-pick label:hover,.rate-pick label:hover ~ label{color:var(--brass)}
+.rate-pick input:focus-visible + label{outline:2px solid var(--brass)}
+.modal select,.modal textarea{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--paper);color:var(--ink);width:100%;font:inherit}
+@media (max-width:900px){.rv-top{grid-template-columns:1fr}.rv-sum{position:static}.rv-list{grid-template-columns:1fr}}
+
+/* contact & support */
+.help-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.help{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:grid;gap:10px;align-content:start}
+.help svg{width:36px;height:36px;color:var(--brass)}
+.help h3{font-size:26px}
+.help .val{font-size:18px;font-weight:600;user-select:all;word-break:break-word}
+.help p{margin:0;color:var(--muted);font-size:15px}
+.copy{justify-self:start;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600}
+@media (max-width:860px){.help-cards{grid-template-columns:1fr}}
+.support{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start}
+.cform{display:grid;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,3vw,36px)}
+.cform h2{font-size:36px}
+.cform .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cform label{display:grid;gap:6px;font-size:14px;font-weight:600}
+.cform input,.cform select,.cform textarea{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--paper);color:var(--ink);width:100%;font:inherit}
+.cform textarea{min-height:130px;resize:vertical}
+.ok{background:var(--alt);border-radius:12px;padding:14px 16px;font-size:15px}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;font-family:var(--display);font-size:22px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--body);color:var(--brass);font-size:24px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:10px 0 0;color:var(--muted)}
+.tickets{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.tickets li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14.5px}
+.tag{background:var(--alt);border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:600}
+@media (max-width:900px){.support{grid-template-columns:1fr}.cform .two{grid-template-columns:1fr}}
+
+/* ===================== QUIET LUXURY TOUCHES ===================== */
+:root{--gold-hi:#F3DFA8}
+/* fine gold rule before every small label */
+.kicker::before{content:"";display:inline-block;width:28px;height:1px;background:currentColor;vertical-align:middle;margin-right:12px;opacity:.8}
+/* soft film grain on the deep green surfaces */
+.hero::after,.band::after,.footer::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");opacity:.07;mix-blend-mode:overlay;pointer-events:none}
+.band,.footer{position:relative;overflow:hidden}
+.band>*,.footer>*{position:relative;z-index:1}
+/* thin gold hairline framing the hero picture */
+.hero-art::before{content:"";position:absolute;inset:6% 4%;border:1px solid color-mix(in srgb,var(--brass) 35%,transparent);border-radius:50%;pointer-events:none}
+
+/* header settles when you scroll */
+.header{transition:box-shadow .4s,background .4s}
+.header .container{transition:height .4s ease}
+.header.scrolled{box-shadow:0 8px 28px rgba(0,0,0,.06)}
+.header.scrolled .container{height:70px}
+
+/* one gold word in the hero */
+.shine{background:linear-gradient(110deg,var(--brass) 0%,var(--brass) 40%,var(--gold-hi) 50%,var(--brass) 60%,var(--brass) 100%);background-size:280% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+/* hero: faint gold dust behind the text */
+.hero{isolation:isolate}
+.hero canvas.dust{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.hero h1 .w{display:inline-block}
+
+/* gentle hovers */
+.card .pic svg{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.card:hover .pic svg{transform:translateY(-4px) scale(1.03)}
+.shot{transition:box-shadow .6s}
+.shot:hover{box-shadow:0 0 0 1px color-mix(in srgb,var(--brass) 70%,transparent),0 24px 60px rgba(0,0,0,.2)}
+.btn-brass{box-shadow:0 8px 22px color-mix(in srgb,var(--brass) 28%,transparent)}
+
+/* sections settle in as you reach them (always faintly visible first) */
+.rv{opacity:.15;transform:translateY(18px);transition:opacity 1.1s cubic-bezier(.2,.8,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+[data-page].enter{animation:pageIn .45s ease}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+.cartbtn.bump{animation:bump .45s ease}
+@keyframes bump{40%{transform:scale(1.12)}}
+
+@media (prefers-reduced-motion:no-preference){
+  .shine{animation:shimmer 10s ease-in-out infinite}
+  @keyframes shimmer{0%,20%{background-position:100% 0}70%,100%{background-position:0 0}}
+  .hero h1 .w{animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 60ms + .1s)}
+  @keyframes rise{from{opacity:0;transform:translateY(30%)}to{opacity:1;transform:none}}
+  .hero .lead,.hero .ctas,.hero .stats{animation:fadeup 1.1s cubic-bezier(.2,.8,.2,1) both}
+  .hero .lead{animation-delay:.5s}.hero .ctas{animation-delay:.65s}.hero .stats{animation-delay:.8s}
+  @keyframes fadeup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .steam{stroke-dasharray:14 10;animation:steam 3.2s linear infinite}
+  @keyframes steam{to{stroke-dashoffset:-48}}
+}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}[data-page].enter{animation:none}}
+
+/* store finder */
+.cities{display:flex;gap:8px;flex-wrap:wrap;margin:-14px 0 18px}
+.cities button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500}
+.cities button span{color:var(--muted);font-size:12.5px;margin-left:2px}
+.cities button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cities button[aria-pressed="true"] span{color:inherit;opacity:.7}
+.maplinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+/* modals + toast */
+.modal-bg{position:fixed;inset:0;background:rgba(10,14,12,.55);z-index:70;display:grid;place-items:center;padding:16px}
+.modal{background:var(--surface);color:var(--ink);border-radius:22px;width:min(420px,100%);padding:30px;display:grid;gap:14px;position:relative;max-height:90vh;overflow:auto}
+.modal h3{font-size:32px}
+.modal .x{position:absolute;top:12px;right:12px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--alt);border-radius:999px;padding:4px}
+.tabs button{border:0;background:transparent;color:var(--ink);border-radius:999px;padding:9px;font-weight:600;font-size:14px}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.modal label{font-size:14px;font-weight:600;display:grid;gap:6px}
+.modal input[type=email],.modal input[type=password],.modal input:not([type]){border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--paper);color:var(--ink);width:100%}
+.err{color:var(--danger);font-size:14px;margin:0}
+.check{display:flex!important;align-items:center;gap:10px;font-weight:500!important}
+.modal .body{display:grid;gap:10px;font-size:15.5px}
+.modal .body p{margin:0}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:999px;font-weight:600;z-index:80;font-size:14.5px;max-width:calc(100% - 32px);text-align:center}
+@media (prefers-reduced-motion:no-preference){.cartbox,.modal{animation:pop .2s ease}@keyframes pop{from{opacity:0;transform:translateY(-8px)}}}
+</style>
+</head>
+<body>
+
+<div class="announce">Weekly Regular: your 4th order this week is 20% off.<a href="#rewards">See how it works →</a></div>
+
+<header class="header">
+  <div class="container">
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    <a class="brand" href="#home" aria-label="Monsoon Bean home">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="var(--forest)"/><circle cx="24" cy="24" r="19" fill="none" stroke="var(--brass)" stroke-width="1"/><ellipse cx="24" cy="25" rx="8" ry="12" fill="var(--brass)" transform="rotate(28 24 25)"/><path d="M19 15 Q26 25 29 35" stroke="var(--forest)" stroke-width="2" fill="none"/><path d="M14 10 l-2 5 M34 10 l2 5 M24 6 v4" stroke="var(--on-forest)" stroke-width="1.4" stroke-linecap="round" opacity=".8"/></svg>
+      <span><b>Monsoon Bean</b><small>COFFEE HOUSE · INDIA</small></span>
+    </a>
+    <nav class="mainnav" id="mainnav" aria-label="Main">
+      <a href="#menu" data-nav="menu">Menu</a>
+      <a href="#coffee" data-nav="coffee">Our Coffee</a>
+      <a href="#rewards" data-nav="rewards">Rewards</a>
+      <a href="#gifts" data-nav="gifts">Gift Cards</a>
+      <a href="#stores" data-nav="stores">Stores</a>
+      <a href="#contact" data-nav="contact">Contact</a>
+    </nav>
+    <div class="tools">
+      <a class="findlink" href="#stores"><svg viewBox="0 0 18 24" aria-hidden="true"><path d="M9 0a9 9 0 0 0-9 9c0 6.5 9 15 9 15s9-8.5 9-15a9 9 0 0 0-9-9zm0 12.5A3.5 3.5 0 1 1 9 5.5a3.5 3.5 0 0 1 0 7z" fill="currentColor"/></svg>Find a store</a>
+      <div class="tools" id="authArea"></div>
+      <button class="cartbtn" id="openCart" aria-label="Open cart"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1.2 12.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 7z M9 7V6a3 3 0 0 1 6 0v1" stroke="currentColor" stroke-width="1.6" fill="none"/></svg><span class="badge" id="count">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<!-- ============ HOME ============ -->
+<div data-page="home">
+  <section class="hero">
+    <canvas class="dust" id="dust" aria-hidden="true"></canvas>
+    <div class="container">
+      <div>
+        <div class="kicker">Small-batch Indian coffee</div>
+        <h1 style="margin-top:18px" id="heroTitle">Born in the rain. <em class="shine">Brewed</em> for the city.</h1>
+        <p class="lead">Shade-grown arabica from the Western Ghats, aged by the monsoon winds of the Malabar coast and roasted every Monday. Order ahead and collect it in ten minutes.</p>
+        <div class="ctas">
+          <a class="btn btn-brass" href="#menu">Order now <span class="arrow">→</span></a>
+          <a class="btn btn-line" href="#coffee">Discover our coffee</a>
+        </div>
+        <div class="stats">
+          <div><b>6</b><span>Estates we buy from</span></div>
+          <div><b>1,200 m</b><span>Average elevation</span></div>
+          <div><b>7 days</b><span>Roast to cup, max</span></div>
+        </div>
+      </div>
+      <div class="hero-art" role="img" aria-label="A latte cup and an iced coffee on a forest green background">
+        <svg viewBox="0 0 520 520">
+          <circle cx="260" cy="270" r="210" fill="var(--forest-2)"/>
+          <circle cx="260" cy="270" r="230" fill="none" stroke="var(--brass)" stroke-width="1" opacity=".6"/>
+          <g transform="translate(0,0)">
+            <path d="M342 120 h92 l-12 250 a12 12 0 0 1 -12 11 h-44 a12 12 0 0 1 -12 -11 z" fill="#FFFFFF" opacity=".16"/>
+            <path d="M346 170 h84 l-10 196 a10 10 0 0 1 -10 9 h-44 a10 10 0 0 1 -10 -9 z" fill="#A9774A"/>
+            <path d="M346 170 h84 l-1.6 34 h-80.8 z" fill="#F4E9DA"/>
+            <rect x="362" y="222" width="22" height="22" rx="4" fill="#E9D7BE" opacity=".7"/>
+            <rect x="392" y="250" width="22" height="22" rx="4" fill="#E9D7BE" opacity=".7"/>
+            <rect x="370" y="286" width="22" height="22" rx="4" fill="#E9D7BE" opacity=".7"/>
+            <rect x="396" y="70" width="7" height="140" rx="3.5" fill="var(--brass)" transform="rotate(12 400 140)"/>
+          </g>
+          <ellipse cx="230" cy="420" rx="150" ry="26" fill="#0A1F1B" opacity=".35"/>
+          <ellipse cx="230" cy="402" rx="140" ry="22" fill="#F4EFE8"/>
+          <ellipse cx="230" cy="398" rx="110" ry="14" fill="#E2DACF"/>
+          <path d="M120 250 h220 l-18 120 a40 40 0 0 1 -40 34 h-104 a40 40 0 0 1 -40 -34 z" fill="#F7F3EE"/>
+          <path d="M338 270 q56 -2 52 46 q-4 44 -66 44" stroke="#F7F3EE" stroke-width="18" fill="none"/>
+          <ellipse cx="230" cy="250" rx="110" ry="22" fill="#E7DFD4"/>
+          <ellipse cx="230" cy="252" rx="98" ry="17" fill="#8A5A34"/>
+          <path d="M230 240 c-14 2 -24 8 -24 12 c0 4 10 9 24 10 c14 -1 24 -6 24 -10 c0 -4 -10 -10 -24 -12z" fill="#F4E9DA"/>
+          <path d="M230 241 v20" stroke="#8A5A34" stroke-width="1.6"/>
+          <path d="M190 200 q-14 -18 0 -36 q14 -18 0 -36 M230 194 q-14 -18 0 -36 q14 -18 0 -36 M270 200 q-14 -18 0 -36 q14 -18 0 -36" stroke="var(--on-forest)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".45" class="steam"/>
+          <g transform="translate(14,14)">
+            <g class="spin">
+              <circle cx="110" cy="110" r="96" fill="var(--brass)"/>
+              <defs><path id="ring" d="M110,110 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+              <text font-family="Jost, sans-serif" font-size="15" font-weight="600" letter-spacing="4.2" fill="var(--brass-ink)"><textPath href="#ring">ROASTED EVERY MONDAY · SINCE 2026 · </textPath></text>
+            </g>
+            <text x="110" y="124" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-style="italic" font-size="40" fill="var(--brass-ink)">MB</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track" id="marquee"></div>
+  </div>
+
+  <section class="sec">
+    <div class="container">
+      <div class="feature">
+        <div class="art" role="img" aria-label="Three drinks on a wooden café table">
+          <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="600" height="420" fill="#6B3427"/>
+            <rect width="600" height="150" fill="#552A1F"/>
+            <path d="M0 210 L600 170 L600 420 L0 420 Z" fill="#E8C9A4"/>
+            <path d="M0 260 L600 222 M0 320 L600 290 M0 380 L600 356" stroke="#D9B48A" stroke-width="3"/>
+            <ellipse cx="135" cy="372" rx="78" ry="16" fill="#C99C70" opacity=".6"/>
+            <path d="M70 290 h120 l-8 78 a14 14 0 0 1 -14 12 h-76 a14 14 0 0 1 -14 -12 z" fill="#B5531E"/>
+            <path d="M188 304 q34 4 30 32 q-4 26 -38 24" stroke="#B5531E" stroke-width="12" fill="none"/>
+            <path d="M70 290 q0 -34 30 -36 q4 -26 30 -24 q26 -6 32 22 q28 4 28 38 z" fill="#FFF6EA"/>
+            <ellipse cx="330" cy="370" rx="70" ry="14" fill="#C99C70" opacity=".6"/>
+            <path d="M268 150 h124 l-14 210 a12 12 0 0 1 -12 11 h-72 a12 12 0 0 1 -12 -11 z" fill="#F6EFE6" opacity=".55"/>
+            <path d="M274 218 h112 l-10 142 a10 10 0 0 1 -10 9 h-72 a10 10 0 0 1 -10 -9 z" fill="#C79B72"/>
+            <path d="M271 168 h118 l-3 50 h-112 z" fill="#FBF6EE"/>
+            <rect x="296" y="250" width="28" height="26" rx="5" fill="#E6CFB4" opacity=".8"/>
+            <rect x="336" y="282" width="28" height="26" rx="5" fill="#E6CFB4" opacity=".8"/>
+            <ellipse cx="500" cy="352" rx="66" ry="12" fill="#C99C70" opacity=".6"/>
+            <path d="M444 108 h112 l-12 236 a10 10 0 0 1 -10 9 h-68 a10 10 0 0 1 -10 -9 z" fill="#F3E3CF" opacity=".5"/>
+            <path d="M449 140 h102 l-10 204 a10 10 0 0 1 -10 9 h-62 a10 10 0 0 1 -10 -9 z" fill="#D67A3C"/>
+            <rect x="466" y="176" width="30" height="28" rx="5" fill="#E9A06A"/>
+            <rect x="506" y="200" width="30" height="28" rx="5" fill="#E9A06A"/>
+            <rect x="478" y="236" width="30" height="28" rx="5" fill="#E9A06A"/>
+          </svg>
+        </div>
+        <div class="copy">
+          <div class="kicker">The monsoon menu</div>
+          <h2>Rainy days call for <em>warm cups.</em></h2>
+          <p>Coconut cold brew, cardamom latte, kanda bhaji and banana walnut bread are back until September.</p>
+          <a class="btn btn-brass" href="#menu" data-open-sub="monsoon">Explore the monsoon menu <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="container">
+      <div class="sec-head">
+        <div><div class="kicker">Customer favourites</div><h2>Bestsellers</h2></div>
+        <div class="car-nav"><button data-scroll="-1" aria-label="Scroll left">←</button><button data-scroll="1" aria-label="Scroll right">→</button></div>
+      </div>
+      <div class="carousel" id="bestsellers"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="container">
+      <div class="sec-head"><div><div class="kicker">Why choose Monsoon Bean</div><h2>Six reasons to <em>make us your café</em></h2></div></div>
+      <div class="why">
+        <div class="reason"><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M8 36C8 18 20 8 38 8c0 18-10 30-28 30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 36L26 20" stroke="currentColor" stroke-width="2"/></svg><h3>Direct from six estates</h3><p>We buy straight from families in the Western and Eastern Ghats and pay above the market price, so you always know where your coffee came from.</p></div>
+        <div class="reason"><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M22 40c-8 0-12-6-12-12 0-8 8-12 8-20 6 4 8 8 8 12 2-2 4-4 4-8 4 4 6 10 6 16 0 6-6 12-14 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg><h3>Roasted every Monday</h3><p>Small batches, roasted weekly in our own roastery. No bag on our shelves is older than seven days.</p></div>
+        <div class="reason"><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M8 16h24l-3 18a4 4 0 0 1-4 3H15a4 4 0 0 1-4-3z M32 20h3a5 5 0 0 1 0 10h-4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15 6c-2 3 2 4 0 7M21 6c-2 3 2 4 0 7" fill="none" stroke="currentColor" stroke-width="2"/></svg><h3>Baristas who care</h3><p>Every barista trains for 120 hours before they pour for you, from latte art to the perfect filter kaapi decoction.</p></div>
+        <div class="reason"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="16" fill="none" stroke="currentColor" stroke-width="2"/><path d="M22 12v11l7 5" fill="none" stroke="currentColor" stroke-width="2"/></svg><h3>Ready in 10 minutes</h3><p>Order on the website and walk straight to the pickup counter. No queue, no waiting.</p></div>
+        <div class="reason"><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M22 6c8 10 12 16 12 22a12 12 0 0 1-24 0c0-6 4-12 12-22z" fill="none" stroke="currentColor" stroke-width="2"/></svg><h3>Plant milk at no extra cost</h3><p>Oat, almond and coconut milk are free in every drink, because good choices should not cost more.</p></div>
+        <div class="reason"><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M22 6l4.7 10 10.8 1.2-8 7.4 2.2 10.7L22 30l-9.7 5.3 2.2-10.7-8-7.4 10.8-1.2z" fill="none" stroke="currentColor" stroke-width="2"/></svg><h3>Rewards that add up</h3><p>Earn a bean for every ₹10 and get 20% off when you visit four times in a week.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="background:var(--alt)">
+    <div class="container">
+      <div class="sec-head"><div><div class="kicker">From farm to cup</div><h2>How your coffee <em>gets here</em></h2></div><a class="link" href="#coffee">Read our story</a></div>
+      <div class="story">
+        <div class="step"><span class="n">01</span><h3>Grown in shade</h3><p>Our arabica grows under pepper vines and silver oak on family estates in Chikmagalur and Coorg, between 1,000 and 1,500 metres.</p></div>
+        <div class="step"><span class="n">02</span><h3>Aged by the monsoon</h3><p>Green beans rest in open warehouses on the Malabar coast for 12 to 16 weeks, where wet winds swell them and soften their acidity.</p></div>
+        <div class="step"><span class="n">03</span><h3>Roasted every Monday</h3><p>We roast in small batches each week, so the coffee in your cup is never more than seven days from the roaster.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="container">
+      <div class="sec-head"><div><div class="kicker">Inside our coffee houses</div><h2>Made for <em>long conversations</em></h2></div><a class="link" href="#stores">Find your nearest store</a></div>
+      <div class="gallery">
+        <figure class="shot s-wide s-tall"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="gl1"><stop offset="0" stop-color="#FFD89A" stop-opacity=".9"/><stop offset="1" stop-color="#FFD89A" stop-opacity="0"/></radialGradient><linearGradient id="gBrass" x1="0" x2="1"><stop offset="0" stop-color="#8C6326"/><stop offset=".5" stop-color="#E6C27A"/><stop offset="1" stop-color="#8C6326"/></linearGradient></defs>
+<rect width="400" height="300" fill="#0E2B25"/>
+<g stroke="#1E4A40" stroke-width="2" fill="none"><rect x="20" y="40" width="80" height="120"/><rect x="120" y="40" width="80" height="120"/><rect x="220" y="40" width="80" height="120"/><rect x="320" y="40" width="80" height="120"/></g>
+<g stroke="url(#gBrass)" stroke-width="3"><line x1="30" y1="90" x2="190" y2="90"/><line x1="30" y1="135" x2="190" y2="135"/></g>
+<g fill="#6B3A22"><rect x="40" y="62" width="10" height="28"/><rect x="58" y="70" width="10" height="20" fill="#2F5D4E"/><rect x="76" y="58" width="12" height="32" fill="#9C2F2F"/><rect x="96" y="66" width="10" height="24"/><rect x="114" y="62" width="10" height="28" fill="#E6C27A"/><rect x="132" y="70" width="12" height="20"/><rect x="152" y="60" width="10" height="30" fill="#2F5D4E"/><rect x="170" y="66" width="10" height="24" fill="#9C2F2F"/><rect x="44" y="108" width="14" height="27" fill="#E6C27A"/><rect x="66" y="112" width="10" height="23"/><rect x="84" y="104" width="12" height="31" fill="#2F5D4E"/><rect x="140" y="110" width="12" height="25"/><rect x="160" y="106" width="12" height="29" fill="#9C2F2F"/></g>
+<g><line x1="250" y1="0" x2="250" y2="56" stroke="#E6C27A"/><line x1="310" y1="0" x2="310" y2="40" stroke="#E6C27A"/><line x1="360" y1="0" x2="360" y2="64" stroke="#E6C27A"/>
+<circle cx="250" cy="70" r="40" fill="url(#gl1)"/><circle cx="310" cy="54" r="40" fill="url(#gl1)"/><circle cx="360" cy="78" r="40" fill="url(#gl1)"/>
+<circle cx="250" cy="70" r="14" fill="#FFF1D2"/><circle cx="310" cy="54" r="14" fill="#FFF1D2"/><circle cx="360" cy="78" r="14" fill="#FFF1D2"/></g>
+<rect x="220" y="120" width="150" height="62" rx="6" fill="url(#gBrass)"/><rect x="236" y="104" width="118" height="18" rx="4" fill="#B88A3D"/><circle cx="262" cy="150" r="12" fill="#1A1408"/><circle cx="328" cy="150" r="12" fill="#1A1408"/><rect x="290" y="132" width="10" height="30" fill="#1A1408"/>
+<rect x="0" y="182" width="400" height="26" fill="#EFEAE3"/><path d="M0 190 C60 186 90 198 150 192 S260 184 320 194 S380 190 400 188" stroke="#CFC6BA" stroke-width="1.5" fill="none"/><path d="M40 202 C100 196 180 206 240 198" stroke="#D9D1C6" fill="none"/>
+<rect x="0" y="208" width="400" height="92" fill="#123A33"/><g stroke="#1E4A40" stroke-width="2"><line x1="0" y1="232" x2="400" y2="232"/></g>
+<g><rect x="60" y="230" width="44" height="10" rx="5" fill="#B88A3D"/><line x1="82" y1="240" x2="82" y2="300" stroke="#B88A3D" stroke-width="4"/><rect x="180" y="230" width="44" height="10" rx="5" fill="#B88A3D"/><line x1="202" y1="240" x2="202" y2="300" stroke="#B88A3D" stroke-width="4"/><rect x="300" y="230" width="44" height="10" rx="5" fill="#B88A3D"/><line x1="322" y1="240" x2="322" y2="300" stroke="#B88A3D" stroke-width="4"/></g>
+<g fill="#FFFFFF"><path d="M120 168h22l-2 14h-18z"/><path d="M156 172h16l-2 10h-12z"/></g></svg><img src="images/shop-1.jpg" alt="The Reserve Bar, Lower Parel, Mumbai" loading="lazy" onerror="this.remove()"><figcaption><b>The Reserve Bar</b><span>Lower Parel, Mumbai</span></figcaption></figure>
+        <figure class="shot "><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="gl2"><stop offset="0" stop-color="#FFD89A" stop-opacity=".9"/><stop offset="1" stop-color="#FFD89A" stop-opacity="0"/></radialGradient></defs>
+<rect width="400" height="300" fill="#3A1C19"/>
+<rect x="10" y="20" width="230" height="200" fill="#2A1411"/>
+<g stroke="#6B3E22" stroke-width="5"><line x1="10" y1="70" x2="240" y2="70"/><line x1="10" y1="120" x2="240" y2="120"/><line x1="10" y1="170" x2="240" y2="170"/><line x1="10" y1="220" x2="240" y2="220"/><line x1="125" y1="20" x2="125" y2="220"/></g>
+<g>
+<rect x="18" y="34" width="10" height="34" fill="#1E4A40"/><rect x="30" y="40" width="8" height="28" fill="#B88A3D"/><rect x="40" y="30" width="12" height="38" fill="#7A2E2A"/><rect x="54" y="38" width="9" height="30" fill="#E6D3B3"/><rect x="65" y="34" width="11" height="34" fill="#2F3E66"/><rect x="80" y="44" width="30" height="8" fill="#7A2E2A" transform="rotate(-12 95 48)"/>
+<rect x="134" y="36" width="10" height="32" fill="#7A2E2A"/><rect x="146" y="30" width="12" height="38" fill="#1E4A40"/><rect x="160" y="40" width="9" height="28" fill="#E6D3B3"/><rect x="171" y="34" width="11" height="34" fill="#B88A3D"/><rect x="184" y="38" width="10" height="30" fill="#2F3E66"/><rect x="196" y="32" width="12" height="36" fill="#7A2E2A"/>
+<rect x="18" y="84" width="12" height="34" fill="#B88A3D"/><rect x="32" y="88" width="10" height="30" fill="#2F3E66"/><rect x="44" y="82" width="12" height="36" fill="#1E4A40"/><rect x="58" y="90" width="9" height="28" fill="#7A2E2A"/><circle cx="96" cy="104" r="12" fill="#E6D3B3"/>
+<rect x="134" y="84" width="11" height="34" fill="#E6D3B3"/><rect x="147" y="88" width="10" height="30" fill="#7A2E2A"/><rect x="159" y="80" width="12" height="38" fill="#2F3E66"/><rect x="173" y="86" width="10" height="32" fill="#B88A3D"/><rect x="185" y="90" width="10" height="28" fill="#1E4A40"/>
+<rect x="18" y="134" width="10" height="34" fill="#7A2E2A"/><rect x="30" y="138" width="12" height="30" fill="#1E4A40"/><rect x="44" y="132" width="10" height="36" fill="#E6D3B3"/><rect x="134" y="134" width="12" height="34" fill="#2F3E66"/><rect x="148" y="140" width="10" height="28" fill="#B88A3D"/><rect x="160" y="132" width="11" height="36" fill="#7A2E2A"/><rect x="200" y="140" width="28" height="28" fill="#6B3E22"/>
+</g>
+<line x1="300" y1="70" x2="300" y2="250" stroke="#B88A3D" stroke-width="4"/><path d="M276 70 h48 l-8 -30 h-32 z" fill="#E9D2A6"/><circle cx="300" cy="80" r="90" fill="url(#gl2)"/>
+<rect x="0" y="240" width="400" height="60" fill="#241210"/><ellipse cx="200" cy="276" rx="190" ry="20" fill="#5C1F22"/><ellipse cx="200" cy="276" rx="160" ry="14" fill="none" stroke="#B88A3D" stroke-width="1.5"/>
+<path d="M190 180 q0 -40 50 -40 q50 0 50 40 v40 h-100 z" fill="#1E5A4C"/><rect x="176" y="190" width="28" height="56" rx="12" fill="#17473C"/><rect x="276" y="190" width="28" height="56" rx="12" fill="#17473C"/><rect x="196" y="214" width="88" height="32" rx="10" fill="#22695A"/>
+<rect x="330" y="216" width="50" height="6" rx="3" fill="#B88A3D"/><line x1="355" y1="222" x2="355" y2="262" stroke="#B88A3D" stroke-width="3"/><path d="M344 204h16l-2 12h-12z" fill="#FFFFFF"/></svg><img src="images/shop-2.jpg" alt="The Library Lounge, Koregaon Park, Pune" loading="lazy" onerror="this.remove()"><figcaption><b>The Library Lounge</b><span>Koregaon Park, Pune</span></figcaption></figure>
+        <figure class="shot "><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E8C8E"/><stop offset="1" stop-color="#B9C8C4"/></linearGradient><radialGradient id="gl3"><stop offset="0" stop-color="#FFD89A" stop-opacity=".9"/><stop offset="1" stop-color="#FFD89A" stop-opacity="0"/></radialGradient></defs>
+<rect width="400" height="300" fill="#1C2522"/>
+<g><path d="M30 230 V90 a60 60 0 0 1 120 0 V230 z" fill="url(#gSky)"/><path d="M250 230 V90 a60 60 0 0 1 120 0 V230 z" fill="url(#gSky)"/></g>
+<g stroke="#FFFFFF" stroke-opacity=".55" stroke-width="1.2"><line x1="50" y1="60" x2="44" y2="90"/><line x1="80" y1="100" x2="74" y2="130"/><line x1="110" y1="70" x2="104" y2="100"/><line x1="130" y1="140" x2="124" y2="170"/><line x1="60" y1="170" x2="54" y2="200"/><line x1="100" y1="190" x2="94" y2="220"/><line x1="270" y1="80" x2="264" y2="110"/><line x1="300" y1="130" x2="294" y2="160"/><line x1="340" y1="70" x2="334" y2="100"/><line x1="350" y1="170" x2="344" y2="200"/><line x1="280" y1="190" x2="274" y2="220"/></g>
+<g stroke="#B88A3D" stroke-width="4" fill="none"><path d="M30 230 V90 a60 60 0 0 1 120 0 V230"/><line x1="90" y1="30" x2="90" y2="230"/><line x1="30" y1="140" x2="150" y2="140"/><path d="M250 230 V90 a60 60 0 0 1 120 0 V230"/><line x1="310" y1="30" x2="310" y2="230"/><line x1="250" y1="140" x2="370" y2="140"/></g>
+<g><rect x="196" y="110" width="8" height="18" fill="#B88A3D"/><circle cx="200" cy="104" r="36" fill="url(#gl3)"/><circle cx="200" cy="104" r="8" fill="#FFF1D2"/></g>
+<rect x="0" y="200" width="400" height="100" fill="#2B1A14"/>
+<path d="M10 300 V214 q0 -14 14 -14 h132 q14 0 14 14 V300z" fill="#5C2A20"/><path d="M230 300 V214 q0 -14 14 -14 h132 q14 0 14 14 V300z" fill="#5C2A20"/>
+<rect x="150" y="236" width="100" height="10" rx="3" fill="#EFEAE3"/><rect x="196" y="246" width="8" height="54" fill="#B88A3D"/>
+<path d="M170 222h18l-2 14h-14z" fill="#FFFFFF"/><path d="M212 222h18l-2 14h-14z" fill="#FFFFFF"/>
+<g fill="#2F6B4F"><ellipse cx="18" cy="190" rx="14" ry="40"/><ellipse cx="382" cy="190" rx="14" ry="40"/></g></svg><img src="images/shop-3.jpg" alt="Monsoon Window Booths, Bandra West, Mumbai" loading="lazy" onerror="this.remove()"><figcaption><b>Monsoon Window Booths</b><span>Bandra West, Mumbai</span></figcaption></figure>
+        <figure class="shot s-wide"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="gCop" x1="0" x2="1"><stop offset="0" stop-color="#7A3E1C"/><stop offset=".45" stop-color="#E09A5E"/><stop offset="1" stop-color="#6B3418"/></linearGradient><radialGradient id="gl4"><stop offset="0" stop-color="#FFD89A" stop-opacity=".9"/><stop offset="1" stop-color="#FFD89A" stop-opacity="0"/></radialGradient></defs>
+<rect width="400" height="300" fill="#4A2A20"/>
+<g stroke="#3A1F17" stroke-width="2"><line x1="0" y1="20" x2="400" y2="20"/><line x1="0" y1="40" x2="400" y2="40"/><line x1="0" y1="60" x2="400" y2="60"/><line x1="0" y1="80" x2="400" y2="80"/><line x1="0" y1="100" x2="400" y2="100"/><line x1="0" y1="120" x2="400" y2="120"/><line x1="0" y1="140" x2="400" y2="140"/><line x1="0" y1="160" x2="400" y2="160"/><line x1="0" y1="180" x2="400" y2="180"/><line x1="0" y1="200" x2="400" y2="200"/><line x1="0" y1="220" x2="400" y2="220"/><line x1="0" y1="0" x2="0" y2="20"/><line x1="40" y1="0" x2="40" y2="20"/><line x1="80" y1="0" x2="80" y2="20"/><line x1="120" y1="0" x2="120" y2="20"/><line x1="160" y1="0" x2="160" y2="20"/><line x1="200" y1="0" x2="200" y2="20"/><line x1="240" y1="0" x2="240" y2="20"/><line x1="280" y1="0" x2="280" y2="20"/><line x1="320" y1="0" x2="320" y2="20"/><line x1="360" y1="0" x2="360" y2="20"/><line x1="10" y1="20" x2="10" y2="40"/><line x1="50" y1="20" x2="50" y2="40"/><line x1="90" y1="20" x2="90" y2="40"/><line x1="130" y1="20" x2="130" y2="40"/><line x1="170" y1="20" x2="170" y2="40"/><line x1="210" y1="20" x2="210" y2="40"/><line x1="250" y1="20" x2="250" y2="40"/><line x1="290" y1="20" x2="290" y2="40"/><line x1="330" y1="20" x2="330" y2="40"/><line x1="370" y1="20" x2="370" y2="40"/><line x1="0" y1="40" x2="0" y2="60"/><line x1="40" y1="40" x2="40" y2="60"/><line x1="80" y1="40" x2="80" y2="60"/><line x1="120" y1="40" x2="120" y2="60"/><line x1="160" y1="40" x2="160" y2="60"/><line x1="200" y1="40" x2="200" y2="60"/><line x1="240" y1="40" x2="240" y2="60"/><line x1="280" y1="40" x2="280" y2="60"/><line x1="320" y1="40" x2="320" y2="60"/><line x1="360" y1="40" x2="360" y2="60"/><line x1="10" y1="60" x2="10" y2="80"/><line x1="50" y1="60" x2="50" y2="80"/><line x1="90" y1="60" x2="90" y2="80"/><line x1="130" y1="60" x2="130" y2="80"/><line x1="170" y1="60" x2="170" y2="80"/><line x1="210" y1="60" x2="210" y2="80"/><line x1="250" y1="60" x2="250" y2="80"/><line x1="290" y1="60" x2="290" y2="80"/><line x1="330" y1="60" x2="330" y2="80"/><line x1="370" y1="60" x2="370" y2="80"/><line x1="0" y1="80" x2="0" y2="100"/><line x1="40" y1="80" x2="40" y2="100"/><line x1="80" y1="80" x2="80" y2="100"/><line x1="120" y1="80" x2="120" y2="100"/><line x1="160" y1="80" x2="160" y2="100"/><line x1="200" y1="80" x2="200" y2="100"/><line x1="240" y1="80" x2="240" y2="100"/><line x1="280" y1="80" x2="280" y2="100"/><line x1="320" y1="80" x2="320" y2="100"/><line x1="360" y1="80" x2="360" y2="100"/><line x1="10" y1="100" x2="10" y2="120"/><line x1="50" y1="100" x2="50" y2="120"/><line x1="90" y1="100" x2="90" y2="120"/><line x1="130" y1="100" x2="130" y2="120"/><line x1="170" y1="100" x2="170" y2="120"/><line x1="210" y1="100" x2="210" y2="120"/><line x1="250" y1="100" x2="250" y2="120"/><line x1="290" y1="100" x2="290" y2="120"/><line x1="330" y1="100" x2="330" y2="120"/><line x1="370" y1="100" x2="370" y2="120"/><line x1="0" y1="120" x2="0" y2="140"/><line x1="40" y1="120" x2="40" y2="140"/><line x1="80" y1="120" x2="80" y2="140"/><line x1="120" y1="120" x2="120" y2="140"/><line x1="160" y1="120" x2="160" y2="140"/><line x1="200" y1="120" x2="200" y2="140"/><line x1="240" y1="120" x2="240" y2="140"/><line x1="280" y1="120" x2="280" y2="140"/><line x1="320" y1="120" x2="320" y2="140"/><line x1="360" y1="120" x2="360" y2="140"/><line x1="10" y1="140" x2="10" y2="160"/><line x1="50" y1="140" x2="50" y2="160"/><line x1="90" y1="140" x2="90" y2="160"/><line x1="130" y1="140" x2="130" y2="160"/><line x1="170" y1="140" x2="170" y2="160"/><line x1="210" y1="140" x2="210" y2="160"/><line x1="250" y1="140" x2="250" y2="160"/><line x1="290" y1="140" x2="290" y2="160"/><line x1="330" y1="140" x2="330" y2="160"/><line x1="370" y1="140" x2="370" y2="160"/><line x1="0" y1="160" x2="0" y2="180"/><line x1="40" y1="160" x2="40" y2="180"/><line x1="80" y1="160" x2="80" y2="180"/><line x1="120" y1="160" x2="120" y2="180"/><line x1="160" y1="160" x2="160" y2="180"/><line x1="200" y1="160" x2="200" y2="180"/><line x1="240" y1="160" x2="240" y2="180"/><line x1="280" y1="160" x2="280" y2="180"/><line x1="320" y1="160" x2="320" y2="180"/><line x1="360" y1="160" x2="360" y2="180"/><line x1="10" y1="180" x2="10" y2="200"/><line x1="50" y1="180" x2="50" y2="200"/><line x1="90" y1="180" x2="90" y2="200"/><line x1="130" y1="180" x2="130" y2="200"/><line x1="170" y1="180" x2="170" y2="200"/><line x1="210" y1="180" x2="210" y2="200"/><line x1="250" y1="180" x2="250" y2="200"/><line x1="290" y1="180" x2="290" y2="200"/><line x1="330" y1="180" x2="330" y2="200"/><line x1="370" y1="180" x2="370" y2="200"/><line x1="0" y1="200" x2="0" y2="220"/><line x1="40" y1="200" x2="40" y2="220"/><line x1="80" y1="200" x2="80" y2="220"/><line x1="120" y1="200" x2="120" y2="220"/><line x1="160" y1="200" x2="160" y2="220"/><line x1="200" y1="200" x2="200" y2="220"/><line x1="240" y1="200" x2="240" y2="220"/><line x1="280" y1="200" x2="280" y2="220"/><line x1="320" y1="200" x2="320" y2="220"/><line x1="360" y1="200" x2="360" y2="220"/><line x1="10" y1="220" x2="10" y2="240"/><line x1="50" y1="220" x2="50" y2="240"/><line x1="90" y1="220" x2="90" y2="240"/><line x1="130" y1="220" x2="130" y2="240"/><line x1="170" y1="220" x2="170" y2="240"/><line x1="210" y1="220" x2="210" y2="240"/><line x1="250" y1="220" x2="250" y2="240"/><line x1="290" y1="220" x2="290" y2="240"/><line x1="330" y1="220" x2="330" y2="240"/><line x1="370" y1="220" x2="370" y2="240"/></g>
+<circle cx="90" cy="40" r="80" fill="url(#gl4)"/>
+<rect x="140" y="40" width="40" height="70" fill="url(#gCop)"/><path d="M130 40 h60 l-10 -30 h-40 z" fill="#B88A3D"/>
+<rect x="110" y="110" width="170" height="110" rx="55" fill="url(#gCop)"/><circle cx="165" cy="165" r="34" fill="#2A1611"/><circle cx="165" cy="165" r="26" fill="#3E2416"/><circle cx="165" cy="165" r="26" fill="none" stroke="#E6C27A" stroke-width="3"/>
+<rect x="230" y="150" width="34" height="10" rx="4" fill="#E6C27A"/>
+<ellipse cx="320" cy="236" rx="70" ry="14" fill="#B88A3D"/><ellipse cx="320" cy="232" rx="62" ry="10" fill="#3E2416"/><g fill="#6B3E22"><circle cx="300" cy="230" r="3"/><circle cx="318" cy="234" r="3"/><circle cx="336" cy="229" r="3"/><circle cx="350" cy="233" r="3"/><circle cx="290" cy="234" r="3"/></g>
+<rect x="0" y="240" width="400" height="60" fill="#2A1611"/>
+<g fill="#C9A77A"><path d="M20 300 q-4 -60 30 -66 q34 6 30 66z"/><path d="M60 300 q-4 -50 26 -56 q30 6 26 56z" fill="#B8956A"/></g>
+<text x="50" y="280" font-family="Jost, sans-serif" font-size="9" fill="#5A3A20" letter-spacing="1">COORG</text></svg><img src="images/shop-4.jpg" alt="The Roastery, Indiranagar, Bengaluru" loading="lazy" onerror="this.remove()"><figcaption><b>The Roastery</b><span>Indiranagar, Bengaluru</span></figcaption></figure>
+        <figure class="shot "><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="gSun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E7A86A"/><stop offset=".6" stop-color="#F3D2A2"/><stop offset="1" stop-color="#F7E6CC"/></linearGradient></defs>
+<rect width="400" height="300" fill="#EDE3D5"/>
+<g fill="url(#gSun)"><path d="M20 210 V90 a50 50 0 0 1 100 0 V210z"/><path d="M150 210 V90 a50 50 0 0 1 100 0 V210z"/><path d="M280 210 V90 a50 50 0 0 1 100 0 V210z"/></g>
+<circle cx="200" cy="150" r="22" fill="#FBEBD0"/>
+<g fill="#2F5D4E"><path d="M60 210 q-2 -60 10 -90 q4 30 -2 90z"/><path d="M70 120 q-30 -6 -40 10 q20 -2 40 -10z M70 120 q30 -10 42 4 q-22 0 -42 -4z M70 120 q-14 -24 -4 -40 q6 20 4 40z"/>
+<path d="M330 210 q-2 -70 10 -100 q4 30 -2 100z"/><path d="M340 110 q-30 -6 -40 10 q20 -2 40 -10z M340 110 q30 -10 42 4 q-22 0 -42 -4z M340 110 q-14 -24 -4 -40 q6 20 4 40z"/></g>
+<rect x="0" y="210" width="400" height="90" fill="#D8C4A8"/><g stroke="#C7B08F"><line x1="0" y1="240" x2="400" y2="240"/><line x1="0" y1="272" x2="400" y2="272"/><line x1="80" y1="210" x2="60" y2="300"/><line x1="200" y1="210" x2="200" y2="300"/><line x1="320" y1="210" x2="340" y2="300"/></g>
+<g fill="none" stroke="#9C6B3E" stroke-width="5"><path d="M100 290 v-40 q0 -40 40 -40 q40 0 40 40 v40"/><path d="M220 290 v-40 q0 -40 40 -40 q40 0 40 40 v40"/></g>
+<rect x="106" y="252" width="68" height="14" rx="6" fill="#F3EDE4"/><rect x="226" y="252" width="68" height="14" rx="6" fill="#F3EDE4"/>
+<ellipse cx="200" cy="244" rx="26" ry="6" fill="#EFEAE3"/><line x1="200" y1="244" x2="200" y2="290" stroke="#B88A3D" stroke-width="3"/><path d="M192 230h16l-2 12h-12z" fill="#FFFFFF"/>
+<g fill="#B5531E"><path d="M18 290 h30 l-4 -26 h-22z"/><path d="M352 290 h30 l-4 -26 h-22z"/></g><g fill="#3D7A5E"><circle cx="33" cy="256" r="14"/><circle cx="367" cy="256" r="14"/></g></svg><img src="images/shop-5.jpg" alt="Sunset Terrace, Hauz Khas, New Delhi" loading="lazy" onerror="this.remove()"><figcaption><b>Sunset Terrace</b><span>Hauz Khas, New Delhi</span></figcaption></figure>
+        <figure class="shot "><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="gl6"><stop offset="0" stop-color="#FFD89A" stop-opacity=".9"/><stop offset="1" stop-color="#FFD89A" stop-opacity="0"/></radialGradient></defs>
+<rect width="400" height="300" fill="#151F1C"/>
+<g stroke="#24332E" stroke-width="2" fill="none"><rect x="10" y="20" width="60" height="150" rx="2"/><rect x="80" y="20" width="60" height="150" rx="2"/><rect x="150" y="20" width="60" height="150" rx="2"/><rect x="220" y="20" width="60" height="150" rx="2"/><rect x="290" y="20" width="60" height="150" rx="2"/><rect x="360" y="20" width="60" height="150" rx="2"/></g>
+<line x1="200" y1="0" x2="200" y2="40" stroke="#E6C27A" stroke-width="2"/>
+<circle cx="200" cy="66" r="110" fill="url(#gl6)"/>
+<g stroke="#E6C27A" stroke-width="2" fill="none"><ellipse cx="200" cy="56" rx="56" ry="12"/><ellipse cx="200" cy="78" rx="38" ry="9"/><line x1="144" y1="56" x2="162" y2="78"/><line x1="256" y1="56" x2="238" y2="78"/><line x1="200" y1="40" x2="200" y2="94"/></g>
+<g fill="#FFF1D2"><circle cx="148" cy="60" r="3.5"/><circle cx="170" cy="66" r="3.5"/><circle cx="200" cy="68" r="3.5"/><circle cx="230" cy="66" r="3.5"/><circle cx="252" cy="60" r="3.5"/><circle cx="166" cy="84" r="3.5"/><circle cx="186" cy="87" r="3.5"/><circle cx="214" cy="87" r="3.5"/><circle cx="234" cy="84" r="3.5"/><circle cx="200" cy="98" r="3.5"/></g>
+<path d="M30 200 L370 200 L400 240 L0 240 z" fill="#ECE6DD"/><path d="M40 214 C120 206 200 226 300 210 S380 222 390 218" stroke="#CFC6BA" stroke-width="1.5" fill="none"/>
+<rect x="0" y="240" width="400" height="60" fill="#0E1513"/><rect x="0" y="240" width="400" height="8" fill="#B88A3D"/>
+<g><ellipse cx="70" cy="216" rx="15" ry="4" fill="#D9D1C6"/><path d="M60 200h20l-2 14a4 4 0 0 1-4 3h-8a4 4 0 0 1-4-3z" fill="#FFFFFF"/><ellipse cx="70" cy="201" rx="9" ry="2.4" fill="#7A4A2A"/><ellipse cx="120" cy="216" rx="15" ry="4" fill="#D9D1C6"/><path d="M110 200h20l-2 14a4 4 0 0 1-4 3h-8a4 4 0 0 1-4-3z" fill="#FFFFFF"/><ellipse cx="120" cy="201" rx="9" ry="2.4" fill="#7A4A2A"/><ellipse cx="170" cy="216" rx="15" ry="4" fill="#D9D1C6"/><path d="M160 200h20l-2 14a4 4 0 0 1-4 3h-8a4 4 0 0 1-4-3z" fill="#FFFFFF"/><ellipse cx="170" cy="201" rx="9" ry="2.4" fill="#7A4A2A"/><ellipse cx="220" cy="216" rx="15" ry="4" fill="#D9D1C6"/><path d="M210 200h20l-2 14a4 4 0 0 1-4 3h-8a4 4 0 0 1-4-3z" fill="#FFFFFF"/><ellipse cx="220" cy="201" rx="9" ry="2.4" fill="#7A4A2A"/><ellipse cx="270" cy="216" rx="15" ry="4" fill="#D9D1C6"/><path d="M260 200h20l-2 14a4 4 0 0 1-4 3h-8a4 4 0 0 1-4-3z" fill="#FFFFFF"/><ellipse cx="270" cy="201" rx="9" ry="2.4" fill="#7A4A2A"/><ellipse cx="320" cy="216" rx="15" ry="4" fill="#D9D1C6"/><path d="M310 200h20l-2 14a4 4 0 0 1-4 3h-8a4 4 0 0 1-4-3z" fill="#FFFFFF"/><ellipse cx="320" cy="201" rx="9" ry="2.4" fill="#7A4A2A"/></g>
+<g fill="#B88A3D"><rect x="56" y="186" width="6" height="14" rx="2"/><rect x="334" y="186" width="6" height="14" rx="2"/></g></svg><img src="images/shop-6.jpg" alt="The Tasting Room, Banjara Hills, Hyderabad" loading="lazy" onerror="this.remove()"><figcaption><b>The Tasting Room</b><span>Banjara Hills, Hyderabad</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="container">
+      <div class="band">
+        <div>
+          <div class="kicker">Bean Rewards</div>
+          <h2 style="margin:14px 0 20px">Every cup brings you <em>closer to the next.</em></h2>
+          <a class="btn btn-brass" href="#rewards">Join Bean Rewards <span class="arrow">→</span></a>
+        </div>
+        <div class="nums">
+          <div><b>25</b><span>Bonus beans when you join</span></div>
+          <div><b>150</b><span>Beans for a free drink</span></div>
+          <div><b>20%</b><span>Off your 4th order every week</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0" id="reviews">
+    <div class="container">
+      <div class="sec-head"><div><div class="kicker">Customer reviews</div><h2>What our guests <em>are saying</em></h2></div><button class="btn btn-ink" id="writeReview">Write a review</button></div>
+      <div class="rv-top">
+        <div class="rv-sum" id="rvSum"></div>
+        <div><div class="rv-list" id="rvList"></div><p class="note" style="margin-top:16px">Reviews marked “Sample” are example content for this demo. Reviews you post are saved in your browser.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="container">
+      <div class="duo">
+        <div class="promo gift">
+          <div class="deco"><div class="giftcard gc-monsoon" style="padding:14px;border-radius:12px"><b style="font-size:13px">Monsoon Bean</b><span style="font-size:22px;font-family:var(--display)">₹1,000</span></div></div>
+          <div class="kicker">Gift cards</div>
+          <h3>Give the gift of a good morning.</h3>
+          <p>Pick a design, choose an amount and add a name. Ready in a minute.</p>
+          <a class="btn btn-ink" href="#gifts">Send a gift card</a>
+        </div>
+        <div class="promo app">
+          <div class="kicker" style="color:var(--brass-ink)">At home coffee</div>
+          <h3>Brew our beans in your own kitchen.</h3>
+          <p>Whole beans, filter powder and brewing gear, packed fresh after every Monday roast.</p>
+          <a class="btn btn-ink" href="#menu" data-open-cat="At Home Coffee">Shop at-home coffee</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" style="padding-bottom:96px">
+    <div class="news">
+      <div><div class="kicker">The Monday letter</div><h2 style="margin-top:12px">New roasts and offers, once a week.</h2></div>
+      <form id="newsForm" novalidate>
+        <label for="newsEmail" style="position:absolute;left:-9999px">Email address</label>
+        <input id="newsEmail" type="email" placeholder="Your email address" autocomplete="email">
+        <button class="btn btn-ink" type="submit">Subscribe</button>
+        <p class="msg" id="newsMsg" role="status" hidden></p>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- ============ MENU ============ -->
+<div data-page="menu" hidden>
+  <section class="phead"><div class="container"><div class="kicker">Order ahead · pick up in 10 minutes</div><h1>The <em>menu</em></h1><p class="lead" id="menuCount"></p></div></section>
+  <div class="container menu-layout">
+    <aside class="side" id="side" aria-label="Menu categories"></aside>
+    <div style="min-width:0">
+      <div class="search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.8"/></svg><input id="menuSearch" type="search" placeholder="Search drinks and food, e.g. chai, paneer, cold brew" aria-label="Search the menu"></div>
+      <div id="menuMain"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ OUR COFFEE ============ -->
+<div data-page="coffee" hidden>
+  <section class="phead"><div class="container"><div class="kicker">Our coffee</div><h1>Six estates. <em>One monsoon.</em></h1><p class="lead">We buy directly from families who have grown coffee in the Western and Eastern Ghats for generations, and we pay above the market price for every harvest.</p></div></section>
+  <section class="sec"><div class="container">
+    <div class="sec-head"><div><div class="kicker">Where we buy</div><h2>Our origins</h2></div></div>
+    <div class="origins" id="origins"></div>
+  </div></section>
+  <section class="sec" style="background:var(--alt)"><div class="container">
+    <div class="sec-head"><div><div class="kicker">Roast guide</div><h2>Find your roast</h2></div></div>
+    <div class="roast">
+      <div class="bar" role="img" aria-label="Roast scale from light to dark"></div>
+      <div class="labels"><span>Light · 205 °C</span><span>Medium · 220 °C</span><span>Dark · 235 °C</span></div>
+      <div class="roast-cards">
+        <div style="--c:#D9B27A"><h4>Light</h4><p>Bright and fruity. Best for pour-over and Aeropress. Try Araku Valley.</p></div>
+        <div style="--c:#9C6B3E"><h4>Medium</h4><p>Balanced, with chocolate and caramel. Great for milk drinks. Try Chikmagalur Estate.</p></div>
+        <div style="--c:#2E1A10"><h4>Dark</h4><p>Bold and smoky with low acidity. Made for filter kaapi. Try Coorg Dark Roast.</p></div>
+      </div>
+    </div>
+  </div></section>
+  <section class="sec"><div class="container">
+    <div class="feature" style="min-height:0">
+      <div class="copy" style="grid-column:1/-1;text-align:left">
+        <div class="kicker">Our promise</div>
+        <h2>Fair prices. <em>Full traceability.</em></h2>
+        <p>Every bag of Monsoon Bean lists the estate, the altitude and the roast date. We visit each farm once a year and publish what we paid.</p>
+        <a class="btn btn-brass" href="#menu" data-open-cat="At Home Coffee">Shop whole beans <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ REWARDS ============ -->
+<div data-page="rewards" hidden>
+  <section class="phead"><div class="container"><div class="kicker">Bean Rewards</div><h1>Drink coffee. <em>Earn coffee.</em></h1><p class="lead">Free to join. Earn 1 bean for every ₹10 you spend, and unlock a weekly discount when you visit often.</p></div></section>
+  <section class="sec"><div class="container">
+    <div class="tiers">
+      <div class="tier"><span class="big">25</span><h3>Welcome beans</h3><p>Get 25 bonus beans the moment you create your account.</p></div>
+      <div class="tier"><span class="big">150</span><h3>Free drink</h3><p>Trade 150 beans for any drink, any size. Plus a free pastry on your birthday.</p></div>
+      <div class="tier hi"><span class="big">20%</span><h3>Weekly Regular</h3><p>Order 4 times between Monday and Sunday. Your 4th order and every order after it that week are 20% off.</p></div>
+    </div>
+    <div id="accountArea"></div>
+  </div></section>
+</div>
+
+<!-- ============ GIFT CARDS ============ -->
+<div data-page="gifts" hidden>
+  <section class="phead"><div class="container"><div class="kicker">Gift cards</div><h1>A gift that <em>tastes good.</em></h1><p class="lead">Choose a design and amount. Gift cards work in every Monsoon Bean store and never expire.</p></div></section>
+  <div class="container gift-layout">
+    <div>
+      <div class="giftcard gc-monsoon" id="gcPreview">
+        <b>Monsoon Bean</b>
+        <div><div class="amt" id="gcAmt">₹1,000</div><div class="to" id="gcTo">A gift for someone special</div></div>
+      </div>
+      <div class="designs" id="gcDesigns" role="group" aria-label="Card design">
+        <button class="gc-monsoon" data-design="monsoon" aria-pressed="true" aria-label="Monsoon design"></button>
+        <button class="gc-brass" data-design="brass" aria-pressed="false" aria-label="Brass design"></button>
+        <button class="gc-bloom" data-design="bloom" aria-pressed="false" aria-label="Bloom design"></button>
+      </div>
+    </div>
+    <form class="gform" id="giftForm" novalidate>
+      <h2 style="font-size:36px">Your gift card</h2>
+      <div><div style="font-size:14px;font-weight:600;margin-bottom:8px">Amount</div>
+        <div class="amts" id="gcAmts">
+          <button type="button" data-amt="500" aria-pressed="false">₹500</button>
+          <button type="button" data-amt="1000" aria-pressed="true">₹1,000</button>
+          <button type="button" data-amt="2000" aria-pressed="false">₹2,000</button>
+          <button type="button" data-amt="5000" aria-pressed="false">₹5,000</button>
+        </div></div>
+      <label for="gcName">Recipient's name<input id="gcName" placeholder="Priya"></label>
+      <label for="gcMsg">Message (optional)<input id="gcMsg" placeholder="Happy birthday!" maxlength="60"></label>
+      <p class="err" id="gcErr" hidden></p>
+      <button class="btn btn-ink" type="submit">Add gift card to cart</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ STORES ============ -->
+<div data-page="stores" hidden>
+  <section class="phead"><div class="container"><div class="kicker">Find a store</div><h1>Come in. <em>Stay a while.</em></h1><p class="lead">55 coffee houses in 19 cities across India, each with free Wi-Fi and a roast of the week.</p></div></section>
+  <section class="sec" style="padding-top:48px"><div class="container">
+    <div class="search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.8"/></svg><input id="storeSearch" type="search" placeholder="Search by city or area" aria-label="Search stores"></div>
+    <div class="cities" id="cityChips" role="group" aria-label="Filter by city"></div>
+    <p class="note" id="storeCount" style="margin:0 0 22px"></p>
+    <div class="store-grid" id="storeGrid"></div>
+  </div></section>
+</div>
+
+<!-- ============ CONTACT & SUPPORT ============ -->
+<div data-page="contact" hidden>
+  <section class="phead"><div class="container"><div class="kicker">Contact &amp; customer support</div><h1>We're here <em>to help.</em></h1><p class="lead">Questions about an order, your Bean Rewards or a store? Our support team replies within 24 hours, every day of the week.</p></div></section>
+  <section class="sec" style="padding-top:48px"><div class="container">
+    <div class="help-cards">
+      <div class="help"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h6l3 8-4 3a18 18 0 0 0 8 8l3-4 8 3v6a3 3 0 0 1-3 3C14 31 5 22 5 7a3 3 0 0 1 3-3z" fill="none" stroke="currentColor" stroke-width="2"/></svg><h3>Call us</h3><span class="val" id="phoneVal">1800 000 0000</span><p>Toll-free, 8 am – 10 pm, every day.</p><button class="copy" data-copy="phoneVal">Copy number</button></div>
+      <div class="help"><svg viewBox="0 0 36 36" aria-hidden="true"><rect x="4" y="8" width="28" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 10l13 10 13-10" fill="none" stroke="currentColor" stroke-width="2"/></svg><h3>Email us</h3><span class="val" id="mailVal">support@monsoonbean.example</span><p>We reply within 24 hours.</p><button class="copy" data-copy="mailVal">Copy email</button></div>
+      <div class="help"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M18 3a11 11 0 0 0-11 11c0 8 11 19 11 19s11-11 11-19A11 11 0 0 0 18 3z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="14" r="4" fill="none" stroke="currentColor" stroke-width="2"/></svg><h3>Visit us</h3><span class="val">Head office, Pune</span><p>Monsoon Bean Coffee, Lane 6, Koregaon Park, Pune 411001.</p><a class="copy" href="#stores" style="text-decoration:none">See all stores</a></div>
+    </div>
+  </div></section>
+  <section class="sec" style="padding-top:0"><div class="container support">
+    <form class="cform" id="contactForm" novalidate>
+      <h2>Send us a message</h2>
+      <div class="two">
+        <label for="cName">Your name<input id="cName" autocomplete="name" placeholder="Aarti Deshmukh"></label>
+        <label for="cEmail">Email<input id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>
+      </div>
+      <div class="two">
+        <label for="cTopic">Topic<select id="cTopic"><option>Order problem</option><option>Bean Rewards</option><option>Gift cards</option><option>Store feedback</option><option>Allergies &amp; ingredients</option><option>Something else</option></select></label>
+        <label for="cOrder">Order number (optional)<input id="cOrder" placeholder="MB-1234"></label>
+      </div>
+      <label for="cMsg">Message<textarea id="cMsg" placeholder="Tell us what happened and we'll sort it out."></textarea></label>
+      <p class="err" id="cErr" role="alert" hidden></p>
+      <button class="btn btn-ink" type="submit" style="justify-self:start">Send message</button>
+      <div class="ok" id="cOk" role="status" hidden></div>
+    </form>
+    <div>
+      <div class="kicker">Frequently asked</div>
+      <h2 style="font-size:clamp(30px,3vw,40px);margin:10px 0 8px">Quick answers</h2>
+      <div class="faq">
+        <details><summary>My order is late. What should I do?</summary><p>Most orders are ready in 10 minutes. If yours takes longer than 20, show your order number at the counter and we'll make it a priority, with a free cookie on us.</p></details>
+        <details><summary>How do I use my beans?</summary><p>Once you have 150 beans, tell the barista you'd like to redeem a free drink. Any drink, any size.</p></details>
+        <details><summary>When does the Weekly Regular discount reset?</summary><p>Every Monday at midnight. Your 4th order between Monday and Sunday, and every order after it that week, gets 20% off.</p></details>
+        <details><summary>Can I cancel or change my order?</summary><p>Yes, within 2 minutes of placing it. Call us or tell the store, and we'll change or cancel it.</p></details>
+        <details><summary>Do you have options for allergies?</summary><p>We have oat, almond and coconut milk at no extra cost. Ask the barista for the full ingredient list of any item.</p></details>
+        <details><summary>Do gift cards expire?</summary><p>No. Monsoon Bean gift cards never expire and work in every store.</p></details>
+      </div>
+      <div id="ticketArea"></div>
+    </div>
+  </div></section>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="#home" aria-label="Monsoon Bean home">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="var(--forest-2)"/><circle cx="24" cy="24" r="19" fill="none" stroke="var(--brass)" stroke-width="1"/><ellipse cx="24" cy="25" rx="8" ry="12" fill="var(--brass)" transform="rotate(28 24 25)"/><path d="M19 15 Q26 25 29 35" stroke="var(--forest-2)" stroke-width="2" fill="none"/></svg>
+          <span><b>Monsoon Bean</b><small>COFFEE HOUSE · INDIA</small></span>
+        </a>
+        <p class="about">Small-batch coffee from Indian estates, roasted every Monday and served across 55 coffee houses in India.</p>
+        <div class="social" aria-label="Follow us">
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook ↗</a>
+          <a href="https://x.com/" target="_blank" rel="noopener noreferrer">X ↗</a>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+          <a href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer">Pinterest ↗</a>
+          <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Spotify ↗</a>
+        </div>
+      </div>
+      <div><h4>Order</h4><ul><li><a href="#menu">Menu</a></li><li><a href="#menu" data-open-sub="monsoon">Monsoon menu</a></li><li><a href="#menu" data-open-cat="At Home Coffee">At home coffee</a></li><li><a href="#gifts">Gift cards</a></li></ul></div>
+      <div><h4>About us</h4><ul><li><a href="#coffee">Our coffee</a></li><li><button class="fbtn" data-legal="sourcing">Sourcing promise</button></li><li><button class="fbtn" data-legal="careers">Careers</button></li><li><a href="#stores">Stores</a></li></ul></div>
+      <div><h4>Help</h4><ul><li><a href="#rewards">Bean Rewards</a></li><li><button class="fbtn" data-legal="faq">FAQs</button></li><li><a href="#contact">Contact &amp; support</a></li><li><a href="#home" data-goto="reviews">Customer reviews</a></li><li><button class="fbtn" data-legal="access">Accessibility</button></li></ul></div>
+    </div>
+    <div class="fbottom">
+      <span>© 2026 Monsoon Bean Coffee. A student project.</span>
+      <ul><li><button class="fbtn" data-legal="privacy">Privacy policy</button></li><li><button class="fbtn" data-legal="terms">Terms of use</button></li><li><button class="fbtn" data-legal="cookies">Cookie preferences</button></li></ul>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="cartbox" id="cartbox" hidden aria-label="Your cart">
+  <header><h3>Your cart</h3><button class="x" id="closeCart" aria-label="Close cart">×</button></header>
+  <div class="lines" id="lines"></div>
+  <div class="totals" id="totals"></div>
+</aside>
+
+<div class="modal-bg" id="authModal" hidden>
+  <form class="modal" id="authForm" novalidate role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button type="button" class="x" id="closeAuth" aria-label="Close">×</button>
+    <h3 id="authTitle">Welcome back</h3>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tabIn" aria-selected="true">Sign in</button>
+      <button type="button" role="tab" id="tabUp" aria-selected="false">Join now</button>
+    </div>
+    <p class="note" id="authNote" hidden></p>
+    <label for="aname" id="nameRow" hidden>Full name<input id="aname" autocomplete="name" placeholder="Aarti Deshmukh"></label>
+    <label for="aemail">Email<input id="aemail" type="email" autocomplete="email" placeholder="you@example.com"></label>
+    <label for="apass">Password<input id="apass" type="password" autocomplete="current-password" placeholder="At least 6 characters"></label>
+    <p class="err" id="authErr" role="alert" hidden></p>
+    <button class="btn btn-ink" type="submit" id="authSubmit">Sign in</button>
+  </form>
+</div>
+
+<div class="modal-bg" id="infoModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+    <button type="button" class="x" id="closeInfo" aria-label="Close">×</button>
+    <h3 id="infoTitle"></h3>
+    <div class="body" id="infoBody"></div>
+  </div>
+</div>
+<div class="modal-bg" id="reviewModal" hidden>
+  <form class="modal" id="reviewForm" novalidate role="dialog" aria-modal="true" aria-labelledby="rvTitle">
+    <button type="button" class="x" id="closeReview" aria-label="Close">×</button>
+    <h3 id="rvTitle">Write a review</h3>
+    <div><div style="font-size:14px;font-weight:600;margin-bottom:6px">Your rating</div>
+      <div class="rate-pick" role="radiogroup" aria-label="Rating">
+        <input type="radio" name="rate" id="r5" value="5"><label for="r5" title="5 stars">★</label>
+        <input type="radio" name="rate" id="r4" value="4"><label for="r4" title="4 stars">★</label>
+        <input type="radio" name="rate" id="r3" value="3"><label for="r3" title="3 stars">★</label>
+        <input type="radio" name="rate" id="r2" value="2"><label for="r2" title="2 stars">★</label>
+        <input type="radio" name="rate" id="r1" value="1"><label for="r1" title="1 star">★</label>
+      </div></div>
+    <label for="rvName">Your name<input id="rvName" placeholder="Aarti D."></label>
+    <label for="rvStore">Store you visited<select id="rvStore"></select></label>
+    <label for="rvText">Your review<textarea id="rvText" rows="4" maxlength="400" placeholder="What did you order? How was it?"></textarea></label>
+    <p class="err" id="rvErr" role="alert" hidden></p>
+    <button class="btn btn-ink" type="submit">Post review</button>
+  </form>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+  /* ================= DATA ================= */
+  var CATS = [
+    {name:"The Latest", subs:[{id:"trending",name:"Trending"},{id:"monsoon",name:"Monsoon Picks"}]},
+    {name:"Coffee", subs:[{id:"hotcoffee",name:"Hot Coffee",kind:"hot"},{id:"coldcoffee",name:"Cold Coffee",kind:"iced"},{id:"single",name:"Single Origin Brews",kind:"hot"}]},
+    {name:"Tea", subs:[{id:"chai",name:"Chai",kind:"hot"},{id:"matcha",name:"Matcha",kind:"hot"},{id:"hottea",name:"Hot Tea",kind:"hot"},{id:"icedtea",name:"Iced Tea",kind:"iced"}]},
+    {name:"Coolers", subs:[{id:"coolers",name:"Fruit Coolers",kind:"iced"},{id:"juice",name:"Fresh Juices",kind:"iced"}]},
+    {name:"Blended Frappés", subs:[{id:"cfrappe",name:"Coffee Frappé",kind:"blend"},{id:"crfrappe",name:"Cream Frappé",kind:"blend"}]},
+    {name:"Other Sips", subs:[{id:"cocoa",name:"Hot Chocolate & More",kind:"hot"},{id:"bottled",name:"Bottled Drinks",kind:"bottle"},{id:"kids",name:"Kids' Drinks",kind:"hot"},{id:"shakes",name:"Milkshakes",kind:"blend"}]},
+    {name:"Food", subs:[{id:"breakfast",name:"Breakfast",kind:"food"},{id:"bakery",name:"Bakery",kind:"food"},{id:"treats",name:"Treats",kind:"food"},{id:"lunch",name:"Lunch",kind:"food"},{id:"snacks",name:"Snacks",kind:"food"},{id:"sweets",name:"Indian Sweets",kind:"food"},{id:"combos",name:"Combos",kind:"food"}]},
+    {name:"At Home Coffee", subs:[{id:"whole",name:"Whole Bean",kind:"bag"},{id:"instant",name:"Instant Coffee",kind:"bag"},{id:"gear",name:"Brewing Gear",kind:"bag"}]}
+  ];
+  var RAW = [
+    ["breakfast", "Masala Omelette Sandwich", "Two-egg masala omelette on toasted bread.", 210, "#C2602A"],
+    ["breakfast", "Poha Bowl", "Flattened rice with peanuts and curry leaves.", 140, "#D9A44E", {m: 1}],
+    ["breakfast", "Granola Yogurt Cup", "Greek yogurt, granola and seasonal fruit.", 190, "#E2B66A"],
+    ["breakfast", "Upma Bowl", "Semolina cooked with vegetables and curry leaves.", 140, "#7A5BA8"],
+    ["breakfast", "Avocado Toast", "Smashed avocado and chilli flakes on sourdough.", 280, "#7AA84F"],
+    ["breakfast", "Aloo Paratha", "Stuffed potato paratha with curd and pickle.", 180, "#EAD8B8", {f: "Bestseller"}],
+    ["breakfast", "Egg Bhurji Wrap", "Spiced scrambled eggs in a wheat wrap.", 200, "#B07A48"],
+    ["breakfast", "Oats Porridge", "Oats with milk, banana and honey.", 170, "#F0C24A"],
+    ["breakfast", "Idli Sambar (3 pcs)", "Steamed rice cakes with sambar and chutney.", 130, "#C98A4A"],
+    ["breakfast", "Masala Dosa", "Crisp dosa with spiced potato filling.", 170, "#6B3E22", {f: "Bestseller"}],
+    ["breakfast", "Medu Vada (2 pcs)", "Crispy lentil doughnuts with sambar.", 120, "#4A2A1C"],
+    ["breakfast", "Misal Pav", "Spicy sprouts curry with farsan and pav.", 160, "#9C3A2A", {m: 1}],
+    ["breakfast", "Sabudana Khichdi", "Sago pearls with peanuts and potato.", 150, "#B2223A"],
+    ["breakfast", "Thalipeeth", "Multigrain flatbread with white butter.", 160, "#E8C64E"],
+    ["breakfast", "Besan Chilla", "Gram flour pancake with vegetables.", 150, "#8A3A1E"],
+    ["breakfast", "Moong Dal Chilla", "Lentil pancake with mint chutney.", 160, "#E07A3C"],
+    ["breakfast", "Paneer Paratha", "Stuffed paneer paratha with curd.", 200, "#C2602A"],
+    ["breakfast", "Gobi Paratha", "Cauliflower paratha with pickle.", 180, "#D9A44E"],
+    ["breakfast", "Methi Thepla (3 pcs)", "Fenugreek flatbreads with sweet mango pickle.", 150, "#E2B66A"],
+    ["breakfast", "Rava Idli", "Semolina idli with coconut chutney.", 140, "#7A5BA8"],
+    ["breakfast", "Onion Uttapam", "Thick dosa topped with onion and tomato.", 170, "#7AA84F"],
+    ["breakfast", "Ven Pongal", "Rice and lentils with ghee and black pepper.", 150, "#EAD8B8"],
+    ["breakfast", "Puri Bhaji", "Fluffy puris with potato bhaji.", 170, "#B07A48"],
+    ["breakfast", "Chole Kulche", "Spiced chickpeas with soft kulcha.", 190, "#F0C24A"],
+    ["breakfast", "Bread Omelette", "Street-style omelette sandwich.", 150, "#C98A4A"],
+    ["breakfast", "Cheese Omelette", "Three-egg omelette with cheddar.", 190, "#6B3E22"],
+    ["breakfast", "Eggs Benedict Muffin", "Poached egg and hollandaise on a muffin.", 290, "#4A2A1C"],
+    ["breakfast", "Scrambled Eggs on Toast", "Creamy eggs on buttered toast.", 210, "#9C3A2A"],
+    ["breakfast", "Akuri on Toast", "Parsi-style spiced scrambled eggs.", 220, "#B2223A"],
+    ["breakfast", "Boiled Egg Plate", "Two eggs with salt and pepper.", 90, "#E8C64E"],
+    ["breakfast", "Pancake Stack", "Three pancakes with maple syrup.", 240, "#8A3A1E"],
+    ["breakfast", "Banana Pancakes", "Pancakes with banana and honey.", 250, "#E07A3C", {f: "New"}],
+    ["breakfast", "French Toast", "Brioche dipped in egg, with berries.", 240, "#C2602A"],
+    ["breakfast", "Honey Butter Waffle", "Crisp waffle with honey and butter.", 230, "#D9A44E"],
+    ["breakfast", "Chocolate Waffle", "Waffle with warm chocolate sauce.", 260, "#E2B66A"],
+    ["breakfast", "Overnight Oats", "Oats soaked in milk with chia and fruit.", 200, "#7A5BA8"],
+    ["breakfast", "Muesli Bowl", "Muesli with cold milk and nuts.", 180, "#7AA84F"],
+    ["breakfast", "Smoothie Bowl", "Banana-berry smoothie topped with granola.", 260, "#EAD8B8"],
+    ["breakfast", "Fruit Bowl", "Seasonal cut fruit.", 160, "#B07A48"],
+    ["breakfast", "Peanut Butter Banana Toast", "Whole wheat toast with peanut butter and banana.", 170, "#F0C24A"],
+    ["breakfast", "Ragi Dosa", "Finger millet dosa with chutney.", 170, "#C98A4A"],
+    ["breakfast", "Neer Dosa (3 pcs)", "Soft rice crepes with coconut chutney.", 150, "#6B3E22"],
+    ["breakfast", "Appam with Stew", "Lacy appam with vegetable stew.", 210, "#4A2A1C"],
+    ["breakfast", "Pesarattu", "Green moong dosa with ginger chutney.", 170, "#9C3A2A"],
+    ["breakfast", "Bun Maska", "Soft bun with plenty of butter.", 80, "#B2223A"],
+    ["breakfast", "Breakfast Burrito", "Eggs, beans and cheese in a tortilla.", 260, "#E8C64E"],
+    ["breakfast", "Hash Brown Plate", "Two crisp hash browns with ketchup.", 160, "#8A3A1E"],
+    ["breakfast", "Garlic Mushroom Toast", "Garlic mushrooms on sourdough.", 240, "#E07A3C"],
+    ["breakfast", "Sprouts Salad", "Moong sprouts with onion and lemon.", 140, "#C2602A"],
+    ["breakfast", "Millet Upma", "Foxtail millet with vegetables.", 160, "#D9A44E"],
+    ["bakery", "Butter Croissant", "All-butter croissant baked every morning.", 150, "#9C3A2A", {f: "Bestseller"}],
+    ["bakery", "Almond Croissant", "Filled with almond cream and flaked almonds.", 190, "#B2223A"],
+    ["bakery", "Chocolate Croissant", "Croissant with dark chocolate inside.", 180, "#E8C64E"],
+    ["bakery", "Banana Walnut Bread", "Moist loaf slice with walnuts. Eggless.", 140, "#8A3A1E", {m: 1}],
+    ["bakery", "Cinnamon Roll", "Cinnamon sugar with cream cheese icing.", 190, "#E07A3C"],
+    ["bakery", "Blueberry Muffin", "Soft muffin full of blueberries.", 160, "#C2602A"],
+    ["bakery", "Garlic Cheese Bun", "Soft bun with garlic butter and cheese.", 130, "#D9A44E"],
+    ["bakery", "Nankhatai (4 pcs)", "Classic Indian shortbread cookies.", 100, "#E2B66A"],
+    ["bakery", "Choco Chip Muffin", "Soft muffin with chocolate chips.", 160, "#7A5BA8"],
+    ["bakery", "Bran Raisin Muffin", "Wheat bran muffin with raisins.", 150, "#7AA84F"],
+    ["bakery", "Lemon Poppy Seed Muffin", "Zesty, light and moist.", 160, "#EAD8B8"],
+    ["bakery", "Cheese Danish", "Flaky pastry with sweet cream cheese.", 180, "#B07A48"],
+    ["bakery", "Apple Danish", "Flaky pastry with spiced apple.", 180, "#F0C24A"],
+    ["bakery", "Raisin Swirl Pastry", "Swirled pastry with custard and raisins.", 180, "#C98A4A"],
+    ["bakery", "Ham and Cheese Croissant", "Warm croissant with ham and cheese.", 230, "#6B3E22"],
+    ["bakery", "Paneer Puff", "Flaky puff with spiced paneer.", 90, "#4A2A1C"],
+    ["bakery", "Veg Puff", "Flaky puff with spiced vegetables.", 70, "#9C3A2A", {f: "Bestseller"}],
+    ["bakery", "Egg Puff", "Flaky puff with masala egg.", 90, "#B2223A"],
+    ["bakery", "Chicken Puff", "Flaky puff with spiced chicken.", 100, "#E8C64E"],
+    ["bakery", "Khari Biscuit (6 pcs)", "Crisp, flaky tea biscuits.", 80, "#8A3A1E"],
+    ["bakery", "Rusk (6 pcs)", "Twice-baked crunchy toast.", 70, "#E07A3C"],
+    ["bakery", "Rosemary Focaccia", "Olive oil, rosemary and sea salt.", 150, "#C2602A"],
+    ["bakery", "Sourdough Loaf", "Whole loaf, baked daily.", 280, "#D9A44E"],
+    ["bakery", "Multigrain Bread", "Sliced loaf with seeds.", 180, "#E2B66A"],
+    ["bakery", "Brioche Bun", "Soft, buttery bun.", 90, "#7A5BA8"],
+    ["bakery", "Bagel with Cream Cheese", "Toasted bagel with cream cheese.", 190, "#7AA84F"],
+    ["bakery", "Sesame Onion Bagel", "Topped with sesame and onion flakes.", 170, "#EAD8B8"],
+    ["bakery", "Dinner Rolls (4 pcs)", "Soft milk rolls.", 110, "#B07A48"],
+    ["bakery", "Pav (6 pcs)", "Fresh Mumbai-style pav.", 60, "#F0C24A"],
+    ["bakery", "Garlic Bread", "Toasted with garlic butter.", 140, "#C98A4A"],
+    ["bakery", "Cheese Garlic Bread", "Garlic bread with melted mozzarella.", 170, "#6B3E22"],
+    ["bakery", "Fruit Cake Slice", "Rich cake with dried fruit.", 120, "#4A2A1C"],
+    ["bakery", "Plum Cake Slice", "Spiced cake with plums and raisins.", 130, "#9C3A2A"],
+    ["bakery", "Marble Cake Slice", "Vanilla and chocolate swirl.", 120, "#B2223A"],
+    ["bakery", "Carrot Cake Slice", "With cream cheese frosting.", 180, "#E8C64E"],
+    ["bakery", "Coffee Walnut Cake", "Coffee sponge with walnuts.", 180, "#8A3A1E", {f: "New"}],
+    ["bakery", "Orange Loaf Slice", "Moist orange cake.", 130, "#E07A3C"],
+    ["bakery", "Date and Walnut Loaf", "No refined sugar.", 150, "#C2602A"],
+    ["bakery", "Scone with Jam", "Buttery scone with jam and cream.", 170, "#D9A44E"],
+    ["bakery", "Cheddar Scone", "Savoury scone with cheddar.", 160, "#E2B66A"],
+    ["bakery", "Soft Pretzel", "Baked pretzel with sea salt.", 140, "#7A5BA8"],
+    ["bakery", "Chocolate Custard Danish", "Pastry with chocolate custard.", 190, "#7AA84F"],
+    ["bakery", "Mawa Cake", "Parsi-style milk cake.", 120, "#EAD8B8"],
+    ["bakery", "Dilkhush", "Bun stuffed with coconut and tutti-frutti.", 90, "#B07A48"],
+    ["bakery", "Coconut Bun", "Sweet bun with coconut filling.", 80, "#F0C24A"],
+    ["bakery", "Cream Roll", "Crisp pastry roll with whipped cream.", 70, "#C98A4A"],
+    ["bakery", "Shrewsbury Biscuits (4 pcs)", "Buttery Pune-style biscuits.", 120, "#6B3E22"],
+    ["bakery", "Butter Cookies (6 pcs)", "Melt-in-the-mouth cookies.", 130, "#4A2A1C"],
+    ["bakery", "Masala Bun", "Bun stuffed with spiced potato.", 80, "#9C3A2A"],
+    ["bakery", "Croissant Egg Sandwich", "Croissant with egg and cheese.", 240, "#B2223A"],
+    ["treats", "Chocolate Brownie", "Dense, fudgy brownie with a crackled top.", 160, "#9C3A2A", {f: "Bestseller"}],
+    ["treats", "Blueberry Cheesecake", "Baked cheesecake with blueberry compote.", 240, "#B2223A"],
+    ["treats", "Choco Chip Cookie", "Crisp edges, soft middle.", 110, "#E8C64E"],
+    ["treats", "Tiramisu Cup", "Coffee-soaked sponge with mascarpone cream.", 260, "#8A3A1E"],
+    ["treats", "Red Velvet Pastry", "With cream cheese frosting.", 190, "#E07A3C"],
+    ["treats", "Lemon Tart", "Buttery tart with lemon curd.", 200, "#C2602A"],
+    ["treats", "Dark Chocolate Truffle Cake", "Rich chocolate cake slice.", 230, "#D9A44E"],
+    ["treats", "Walnut Brownie", "Brownie with toasted walnuts.", 180, "#E2B66A"],
+    ["treats", "Brownie with Ice Cream", "Warm brownie with a vanilla scoop.", 240, "#7A5BA8"],
+    ["treats", "Blondie", "White chocolate brownie.", 170, "#7AA84F"],
+    ["treats", "Mango Cheesecake", "Made with Alphonso mango.", 260, "#EAD8B8", {f: "New"}],
+    ["treats", "Classic Baked Cheesecake", "Plain, rich and creamy.", 240, "#B07A48"],
+    ["treats", "Black Forest Pastry", "Chocolate, cherry and cream.", 170, "#F0C24A"],
+    ["treats", "Pineapple Pastry", "Light sponge with pineapple.", 140, "#C98A4A"],
+    ["treats", "Butterscotch Pastry", "Caramel and crunchy praline.", 150, "#6B3E22"],
+    ["treats", "Chocolate Mousse Cup", "Silky dark chocolate mousse.", 190, "#4A2A1C"],
+    ["treats", "Coffee Mousse Cup", "Made with our espresso.", 190, "#9C3A2A"],
+    ["treats", "Caramel Custard", "Baked caramel pudding.", 150, "#B2223A"],
+    ["treats", "Panna Cotta", "Vanilla cream with berry sauce.", 200, "#E8C64E"],
+    ["treats", "Banoffee Pie", "Banana, toffee and cream.", 220, "#8A3A1E"],
+    ["treats", "Apple Pie Slice", "Spiced apples in buttery pastry.", 200, "#E07A3C"],
+    ["treats", "Chocolate Éclair", "Choux pastry with chocolate glaze.", 150, "#C2602A"],
+    ["treats", "Cream Puffs (2 pcs)", "Choux filled with vanilla cream.", 140, "#D9A44E"],
+    ["treats", "Macarons (4 pcs)", "Assorted flavours.", 260, "#E2B66A"],
+    ["treats", "Oatmeal Raisin Cookie", "Chewy, with raisins.", 110, "#7A5BA8"],
+    ["treats", "Double Chocolate Cookie", "Cocoa cookie with chocolate chunks.", 120, "#7AA84F"],
+    ["treats", "Peanut Butter Cookie", "Nutty and soft.", 110, "#EAD8B8"],
+    ["treats", "Almond Biscotti (3 pcs)", "Crunchy, made for dunking.", 120, "#B07A48"],
+    ["treats", "Chocolate Lava Cake", "Molten centre, served warm.", 220, "#F0C24A", {f: "Bestseller"}],
+    ["treats", "Vanilla Cupcake", "With buttercream swirl.", 110, "#C98A4A"],
+    ["treats", "Chocolate Cupcake", "With chocolate frosting.", 120, "#6B3E22"],
+    ["treats", "Rainbow Cupcake", "Colourful sponge layers.", 130, "#4A2A1C"],
+    ["treats", "Glazed Donut", "Classic sugar glaze.", 100, "#9C3A2A"],
+    ["treats", "Chocolate Donut", "Chocolate glaze and sprinkles.", 120, "#B2223A"],
+    ["treats", "Hazelnut Cocoa Donut", "Filled with hazelnut chocolate spread.", 140, "#E8C64E"],
+    ["treats", "Churros (4 pcs)", "With chocolate dip.", 180, "#8A3A1E"],
+    ["treats", "Vanilla Ice Cream", "One scoop.", 90, "#E07A3C"],
+    ["treats", "Chocolate Ice Cream", "One scoop.", 90, "#C2602A"],
+    ["treats", "Cold Brew Ice Cream", "One scoop made with our cold brew.", 110, "#D9A44E"],
+    ["treats", "Nutty Sundae", "Ice cream, chocolate sauce and nuts.", 220, "#E2B66A"],
+    ["treats", "Affogato", "Vanilla ice cream drowned in espresso.", 200, "#7A5BA8"],
+    ["treats", "Fresh Fruit Tart", "Custard and fresh fruit.", 210, "#7AA84F"],
+    ["treats", "Chocolate Ganache Tart", "Dark ganache in a crisp shell.", 210, "#EAD8B8"],
+    ["treats", "Chocolate Cake Ball", "Alcohol-free truffle ball.", 90, "#B07A48"],
+    ["treats", "Brownie Bites (4 pcs)", "Mini brownies.", 150, "#F0C24A"],
+    ["treats", "Cookie Sandwich", "Two cookies with vanilla cream.", 150, "#C98A4A"],
+    ["treats", "Coffee Layer Cake", "Coffee and chocolate layers.", 250, "#6B3E22"],
+    ["treats", "Swiss Roll Slice", "Jam-filled sponge.", 100, "#4A2A1C"],
+    ["treats", "Chocolate Fudge Bar", "Thick chocolate fudge.", 130, "#9C3A2A"],
+    ["treats", "Salted Caramel Brownie", "With caramel drizzle.", 190, "#B2223A"],
+    ["lunch", "Paneer Tikka Sandwich", "Grilled paneer and mint chutney on sourdough.", 220, "#7AA84F", {f: "Bestseller"}],
+    ["lunch", "Chicken Pesto Panini", "Grilled chicken, pesto and mozzarella.", 260, "#EAD8B8"],
+    ["lunch", "Rajma Rice Bowl", "Slow-cooked rajma with jeera rice.", 230, "#B07A48"],
+    ["lunch", "Veg Club Sandwich", "Three layers with vegetables and cheese.", 230, "#F0C24A"],
+    ["lunch", "Bombay Masala Toast", "Spiced potato and chutney, grilled.", 180, "#C98A4A", {f: "Bestseller"}],
+    ["lunch", "Pesto Pasta", "Penne in basil pesto with cherry tomatoes.", 280, "#6B3E22"],
+    ["lunch", "Chicken Tikka Wrap", "Chicken tikka with mint mayo.", 260, "#4A2A1C"],
+    ["lunch", "Veg Hummus Wrap", "Grilled vegetables and hummus.", 200, "#9C3A2A"],
+    ["lunch", "Chole Rice Bowl", "Chickpea curry with rice.", 220, "#B2223A"],
+    ["lunch", "Dal Khichdi", "Rice and lentils with ghee.", 190, "#E8C64E", {m: 1}],
+    ["lunch", "Paneer Butter Masala Bowl", "With jeera rice.", 270, "#8A3A1E"],
+    ["lunch", "Butter Chicken Bowl", "With jeera rice.", 300, "#E07A3C"],
+    ["lunch", "Veg Biryani", "Fragrant rice with vegetables.", 250, "#C2602A"],
+    ["lunch", "Chicken Biryani", "Hyderabadi-style dum biryani.", 300, "#D9A44E", {f: "Bestseller"}],
+    ["lunch", "Curd Rice", "With tempering and pomegranate.", 160, "#E2B66A"],
+    ["lunch", "Lemon Rice", "With peanuts and curry leaves.", 160, "#7A5BA8"],
+    ["lunch", "Pav Bhaji", "Spiced vegetable mash with buttered pav.", 200, "#7AA84F"],
+    ["lunch", "Veg Pulao", "Mild rice with vegetables.", 200, "#EAD8B8"],
+    ["lunch", "Veg Thali", "Dal, sabzi, rice, roti and a sweet.", 320, "#B07A48"],
+    ["lunch", "Arrabbiata Pasta", "Penne in spicy tomato sauce.", 260, "#F0C24A"],
+    ["lunch", "Alfredo Pasta", "Creamy white sauce penne.", 280, "#C98A4A"],
+    ["lunch", "Baked Mac and Cheese", "Cheesy and golden.", 260, "#6B3E22"],
+    ["lunch", "Margherita Flatbread", "Tomato, mozzarella and basil.", 280, "#4A2A1C"],
+    ["lunch", "Farmhouse Flatbread", "Vegetables and cheese.", 300, "#9C3A2A"],
+    ["lunch", "Tandoori Chicken Flatbread", "Tandoori chicken and onions.", 320, "#B2223A"],
+    ["lunch", "Grilled Cheese Sandwich", "Melted cheddar on sourdough.", 190, "#E8C64E"],
+    ["lunch", "Corn and Cheese Sandwich", "Sweet corn and mozzarella.", 200, "#8A3A1E"],
+    ["lunch", "Chicken Mayo Sandwich", "Shredded chicken and mayo.", 220, "#E07A3C"],
+    ["lunch", "Egg Mayo Sandwich", "Egg salad on multigrain.", 190, "#C2602A"],
+    ["lunch", "Tuna Sandwich", "Tuna, onion and lettuce.", 260, "#D9A44E"],
+    ["lunch", "Caesar Salad", "Romaine, croutons and parmesan.", 260, "#E2B66A"],
+    ["lunch", "Chicken Caesar Salad", "With grilled chicken.", 300, "#7A5BA8"],
+    ["lunch", "Greek Salad", "Feta, olives and cucumber.", 260, "#7AA84F"],
+    ["lunch", "Quinoa Salad", "Quinoa, vegetables and lemon.", 280, "#EAD8B8", {f: "New"}],
+    ["lunch", "Burrito Bowl", "Rice, beans, salsa and cheese.", 300, "#B07A48"],
+    ["lunch", "Falafel Wrap", "Falafel with tahini sauce.", 240, "#F0C24A"],
+    ["lunch", "Paneer Kathi Roll", "Spiced paneer in a paratha.", 200, "#C98A4A"],
+    ["lunch", "Chicken Kathi Roll", "Spiced chicken in a paratha.", 230, "#6B3E22"],
+    ["lunch", "Crispy Veg Burger", "Crispy vegetable patty.", 200, "#4A2A1C"],
+    ["lunch", "Grilled Chicken Burger", "Grilled chicken patty.", 250, "#9C3A2A"],
+    ["lunch", "Mushroom Risotto", "Creamy arborio rice.", 320, "#B2223A"],
+    ["lunch", "Veg Hakka Noodles", "Stir-fried vegetables and noodles.", 220, "#E8C64E"],
+    ["lunch", "Schezwan Fried Rice", "Spicy Indo-Chinese rice.", 220, "#8A3A1E"],
+    ["lunch", "Veg Manchurian Bowl", "With fried rice.", 260, "#E07A3C"],
+    ["lunch", "Tomato Soup with Bread", "Hot soup with garlic bread.", 180, "#C2602A", {m: 1}],
+    ["lunch", "Sweet Corn Soup", "With vegetables.", 160, "#D9A44E", {m: 1}],
+    ["lunch", "Minestrone Soup", "Italian vegetable soup.", 180, "#E2B66A"],
+    ["lunch", "Cheesy Baked Potato", "Stuffed with cheese and herbs.", 200, "#7A5BA8"],
+    ["lunch", "Stuffed Bell Pepper", "Rice and cheese filling.", 240, "#7AA84F"],
+    ["lunch", "Veg Sushi Rolls (6 pcs)", "Rice, cucumber and avocado.", 300, "#EAD8B8"],
+    ["snacks", "Masala Peanuts", "Roasted peanuts with spices.", 80, "#9C3A2A"],
+    ["snacks", "Kerala Banana Chips", "Thin chips fried in coconut oil.", 90, "#B2223A"],
+    ["snacks", "Samosa (2 pcs)", "Crisp pastry with spiced potato and peas.", 80, "#E8C64E", {f: "Bestseller"}],
+    ["snacks", "Vada Pav", "Mumbai's favourite spiced potato burger.", 70, "#8A3A1E", {m: 1}],
+    ["snacks", "Kanda Bhaji", "Crispy onion fritters with green chutney.", 90, "#E07A3C", {m: 1}],
+    ["snacks", "Roasted Makhana", "Fox nuts roasted with peri-peri spice.", 120, "#C2602A"],
+    ["snacks", "Batata Vada (2 pcs)", "Potato fritters with chutney.", 80, "#D9A44E"],
+    ["snacks", "Mirchi Bhaji (2 pcs)", "Stuffed chilli fritters.", 90, "#E2B66A", {m: 1}],
+    ["snacks", "Paneer Pakora", "Battered paneer fritters.", 140, "#7A5BA8"],
+    ["snacks", "Corn Bhel", "Sweet corn with onion and lemon.", 110, "#7AA84F"],
+    ["snacks", "Bhel Puri", "Puffed rice, chutneys and sev.", 90, "#EAD8B8"],
+    ["snacks", "Sev Puri (6 pcs)", "Puris with potato, chutney and sev.", 100, "#B07A48"],
+    ["snacks", "Pani Puri (6 pcs)", "With tangy mint water.", 80, "#F0C24A", {f: "Bestseller"}],
+    ["snacks", "Dahi Puri (6 pcs)", "With curd and chutneys.", 110, "#C98A4A"],
+    ["snacks", "Dhokla (4 pcs)", "Steamed gram flour cake.", 90, "#6B3E22"],
+    ["snacks", "Khandvi", "Gram flour rolls with tempering.", 110, "#4A2A1C"],
+    ["snacks", "Kachori (2 pcs)", "Spicy lentil-filled pastry.", 90, "#9C3A2A"],
+    ["snacks", "Dabeli", "Kutchi spiced potato bun.", 80, "#B2223A"],
+    ["snacks", "Sabudana Vada (2 pcs)", "Sago and potato patties.", 100, "#E8C64E"],
+    ["snacks", "Cheese Balls (6 pcs)", "Crispy cheesy bites.", 150, "#8A3A1E"],
+    ["snacks", "French Fries", "Salted and crisp.", 120, "#E07A3C"],
+    ["snacks", "Peri-peri Fries", "With spicy seasoning.", 140, "#C2602A"],
+    ["snacks", "Cheese Fries", "With cheese sauce.", 160, "#D9A44E"],
+    ["snacks", "Potato Wedges", "Herb-seasoned wedges.", 140, "#E2B66A"],
+    ["snacks", "Nachos with Salsa", "Corn chips and salsa.", 160, "#7A5BA8"],
+    ["snacks", "Loaded Nachos", "With cheese and jalapeños.", 220, "#7AA84F", {f: "New"}],
+    ["snacks", "Garlic Butter Mushrooms", "Sautéed in garlic butter.", 180, "#EAD8B8"],
+    ["snacks", "Chicken Nuggets (6 pcs)", "With dip.", 200, "#B07A48"],
+    ["snacks", "Spicy Chicken Wings (6 pcs)", "With a spicy glaze.", 260, "#F0C24A"],
+    ["snacks", "Veg Spring Rolls (4 pcs)", "Crispy, with sweet chilli dip.", 160, "#C98A4A"],
+    ["snacks", "Chilli Paneer", "Indo-Chinese starter.", 220, "#6B3E22"],
+    ["snacks", "Hara Bhara Kebab (4 pcs)", "Spinach and pea patties.", 180, "#4A2A1C"],
+    ["snacks", "Corn Cheese Toast", "Open toast with corn and cheese.", 150, "#9C3A2A"],
+    ["snacks", "Chakli", "Crunchy rice spirals.", 80, "#B2223A"],
+    ["snacks", "Shankarpali", "Sweet crisp diamonds.", 80, "#E8C64E"],
+    ["snacks", "Poha Chivda", "Spiced flaked rice mix.", 70, "#8A3A1E"],
+    ["snacks", "Khakhra (2 pcs)", "Thin crisp wheat crackers.", 60, "#E07A3C"],
+    ["snacks", "Trail Mix", "Nuts, seeds and raisins.", 150, "#C2602A"],
+    ["snacks", "Hummus with Pita", "Chickpea dip with warm pita.", 200, "#D9A44E"],
+    ["snacks", "Tomato Bruschetta (3 pcs)", "Tomato and basil on toast.", 180, "#E2B66A"],
+    ["snacks", "Salted Popcorn", "Freshly popped.", 90, "#7A5BA8"],
+    ["snacks", "Caramel Popcorn", "Sweet and crunchy.", 120, "#7AA84F"],
+    ["snacks", "Podi Mini Idli", "Mini idlis tossed in spicy podi.", 130, "#EAD8B8"],
+    ["snacks", "Murukku", "Crisp lentil spirals.", 70, "#B07A48"],
+    ["snacks", "Aloo Tikki (2 pcs)", "With chutneys.", 110, "#F0C24A"],
+    ["snacks", "Ragda Pattice", "Potato patties with white pea curry.", 130, "#C98A4A"],
+    ["snacks", "Moong Dal Pakora", "Lentil fritters.", 100, "#6B3E22", {m: 1}],
+    ["snacks", "Sweet Potato Chaat", "With lemon and chaat masala.", 120, "#4A2A1C"],
+    ["snacks", "Fruit Chaat", "Seasonal fruit with masala.", 120, "#9C3A2A"],
+    ["snacks", "Cucumber Sticks with Dip", "Fresh and light.", 100, "#B2223A"],
+    ["sweets", "Kaju Katli (4 pcs)", "Cashew fudge with silver leaf.", 160, "#9C3A2A", {f: "Bestseller"}],
+    ["sweets", "Gulab Jamun (2 pcs)", "Warm milk dumplings in rose syrup.", 110, "#B2223A", {f: "Bestseller"}],
+    ["sweets", "Shrikhand Cup", "Sweet strained yogurt with saffron.", 130, "#E8C64E"],
+    ["sweets", "Coffee Barfi (4 pcs)", "Milk fudge flavoured with our espresso.", 150, "#8A3A1E", {f: "New"}],
+    ["sweets", "Rasgulla (2 pcs)", "Soft cottage cheese balls in syrup.", 110, "#E07A3C"],
+    ["sweets", "Rasmalai (2 pcs)", "In chilled saffron milk.", 150, "#C2602A"],
+    ["sweets", "Jalebi (100 g)", "Crispy, syrupy spirals.", 90, "#D9A44E", {m: 1}],
+    ["sweets", "Motichoor Ladoo (2 pcs)", "Tiny boondi pearls.", 100, "#E2B66A"],
+    ["sweets", "Besan Ladoo (2 pcs)", "Roasted gram flour and ghee.", 100, "#7A5BA8"],
+    ["sweets", "Coconut Ladoo (2 pcs)", "With condensed milk.", 90, "#7AA84F"],
+    ["sweets", "Ukadiche Modak (2 pcs)", "Steamed with coconut and jaggery.", 120, "#EAD8B8", {m: 1}],
+    ["sweets", "Puran Poli", "Sweet lentil flatbread with ghee.", 120, "#B07A48"],
+    ["sweets", "Gajar Halwa", "Slow-cooked carrot pudding.", 140, "#F0C24A"],
+    ["sweets", "Moong Dal Halwa", "Rich and ghee-roasted.", 160, "#C98A4A"],
+    ["sweets", "Sooji Halwa", "Semolina with ghee and nuts.", 110, "#6B3E22"],
+    ["sweets", "Rice Kheer", "Rice pudding with cardamom.", 120, "#4A2A1C"],
+    ["sweets", "Phirni", "Ground rice pudding in a clay cup.", 130, "#9C3A2A"],
+    ["sweets", "Basundi", "Thickened sweet milk.", 140, "#B2223A"],
+    ["sweets", "Rabri", "Layered thick milk.", 150, "#E8C64E"],
+    ["sweets", "Malai Kulfi", "Traditional Indian ice cream.", 100, "#8A3A1E"],
+    ["sweets", "Pista Kulfi", "With pistachios.", 110, "#E07A3C"],
+    ["sweets", "Mango Kulfi", "Made with Alphonso mango.", 120, "#C2602A"],
+    ["sweets", "Mysore Pak", "Ghee and gram flour.", 120, "#D9A44E"],
+    ["sweets", "Soan Papdi (4 pcs)", "Flaky cardamom sweet.", 90, "#E2B66A"],
+    ["sweets", "Peda (4 pcs)", "Milk fudge.", 110, "#7A5BA8"],
+    ["sweets", "Kesar Peda (4 pcs)", "With saffron.", 130, "#7AA84F"],
+    ["sweets", "Dharwad Peda (4 pcs)", "Caramelised milk sweet.", 130, "#EAD8B8"],
+    ["sweets", "Kalakand (4 pcs)", "Grainy milk cake.", 130, "#B07A48"],
+    ["sweets", "Milk Cake (4 pcs)", "Caramelised milk fudge.", 130, "#F0C24A"],
+    ["sweets", "Anjeer Barfi (4 pcs)", "Fig and nut fudge.", 180, "#C98A4A"],
+    ["sweets", "Badam Barfi (4 pcs)", "Almond fudge.", 170, "#6B3E22"],
+    ["sweets", "Pista Barfi (4 pcs)", "Pistachio fudge.", 180, "#4A2A1C"],
+    ["sweets", "Chocolate Barfi (4 pcs)", "Layered milk and cocoa.", 150, "#9C3A2A"],
+    ["sweets", "Malpua (2 pcs)", "Sweet pancakes in syrup.", 130, "#B2223A"],
+    ["sweets", "Imarti (2 pcs)", "Lentil flower spirals in syrup.", 100, "#E8C64E"],
+    ["sweets", "Ghevar", "Honeycomb sweet with rabri.", 180, "#8A3A1E"],
+    ["sweets", "Peanut Chikki", "Peanut and jaggery brittle.", 60, "#E07A3C"],
+    ["sweets", "Til Chikki", "Sesame and jaggery brittle.", 60, "#C2602A"],
+    ["sweets", "Gud Para", "Jaggery-coated crisps.", 70, "#D9A44E"],
+    ["sweets", "Karanji (2 pcs)", "Coconut-filled crescents.", 90, "#E2B66A"],
+    ["sweets", "Anarsa (2 pcs)", "Rice and jaggery cookies.", 90, "#7A5BA8"],
+    ["sweets", "Sandesh (2 pcs)", "Bengali cottage cheese sweet.", 120, "#7AA84F"],
+    ["sweets", "Mishti Doi", "Sweet baked yogurt.", 100, "#EAD8B8"],
+    ["sweets", "Cham Cham (2 pcs)", "Coconut-coated milk sweet.", 120, "#B07A48"],
+    ["sweets", "Kaju Roll (4 pcs)", "Cashew rolls with pistachio.", 170, "#F0C24A"],
+    ["sweets", "Dry Fruit Ladoo (2 pcs)", "No added sugar.", 150, "#C98A4A"],
+    ["sweets", "Ragi Ladoo (2 pcs)", "Finger millet and jaggery.", 100, "#6B3E22"],
+    ["sweets", "Shahi Tukda", "Fried bread with rabri.", 150, "#4A2A1C"],
+    ["sweets", "Paal Payasam", "Kerala rice and milk pudding.", 130, "#9C3A2A"],
+    ["sweets", "Double ka Meetha", "Hyderabadi bread pudding.", 140, "#B2223A"],
+    ["combos", "Filter Kaapi + Butter Croissant", "Regular Filter Kaapi with Butter Croissant. Save ₹30.", 240, "#9C3A2A", {f: "Bestseller"}],
+    ["combos", "Filter Kaapi + Vada Pav", "Regular Filter Kaapi with Vada Pav. Save ₹20.", 170, "#B2223A", {m: 1}],
+    ["combos", "Filter Kaapi + Chocolate Brownie", "Regular Filter Kaapi with Chocolate Brownie. Save ₹30.", 250, "#E8C64E"],
+    ["combos", "Filter Kaapi + Paneer Tikka Sandwich", "Regular Filter Kaapi with Paneer Tikka Sandwich. Save ₹40.", 300, "#8A3A1E"],
+    ["combos", "Filter Kaapi + Samosa (2 pcs)", "Regular Filter Kaapi with Samosa (2 pcs). Save ₹20.", 180, "#E07A3C", {m: 1}],
+    ["combos", "Masala Chai + Butter Croissant", "Regular Masala Chai with Butter Croissant. Save ₹30.", 230, "#C2602A"],
+    ["combos", "Masala Chai + Vada Pav", "Regular Masala Chai with Vada Pav. Save ₹20.", 160, "#D9A44E", {m: 1}],
+    ["combos", "Masala Chai + Chocolate Brownie", "Regular Masala Chai with Chocolate Brownie. Save ₹30.", 240, "#E2B66A"],
+    ["combos", "Masala Chai + Paneer Tikka Sandwich", "Regular Masala Chai with Paneer Tikka Sandwich. Save ₹40.", 290, "#7A5BA8"],
+    ["combos", "Masala Chai + Samosa (2 pcs)", "Regular Masala Chai with Samosa (2 pcs). Save ₹20.", 170, "#7AA84F", {m: 1}],
+    ["combos", "Cappuccino + Butter Croissant", "Regular Cappuccino with Butter Croissant. Save ₹40.", 300, "#EAD8B8"],
+    ["combos", "Cappuccino + Vada Pav", "Regular Cappuccino with Vada Pav. Save ₹30.", 230, "#B07A48"],
+    ["combos", "Cappuccino + Chocolate Brownie", "Regular Cappuccino with Chocolate Brownie. Save ₹40.", 310, "#F0C24A"],
+    ["combos", "Cappuccino + Paneer Tikka Sandwich", "Regular Cappuccino with Paneer Tikka Sandwich. Save ₹50.", 360, "#C98A4A"],
+    ["combos", "Cappuccino + Samosa (2 pcs)", "Regular Cappuccino with Samosa (2 pcs). Save ₹30.", 240, "#6B3E22"],
+    ["combos", "Cold Brew + Butter Croissant", "Regular Cold Brew with Butter Croissant. Save ₹40.", 320, "#4A2A1C"],
+    ["combos", "Cold Brew + Vada Pav", "Regular Cold Brew with Vada Pav. Save ₹30.", 250, "#9C3A2A"],
+    ["combos", "Cold Brew + Chocolate Brownie", "Regular Cold Brew with Chocolate Brownie. Save ₹40.", 330, "#B2223A"],
+    ["combos", "Cold Brew + Paneer Tikka Sandwich", "Regular Cold Brew with Paneer Tikka Sandwich. Save ₹50.", 380, "#E8C64E"],
+    ["combos", "Cold Brew + Samosa (2 pcs)", "Regular Cold Brew with Samosa (2 pcs). Save ₹30.", 260, "#8A3A1E"],
+    ["combos", "Café Latte + Butter Croissant", "Regular Café Latte with Butter Croissant. Save ₹40.", 310, "#E07A3C"],
+    ["combos", "Café Latte + Vada Pav", "Regular Café Latte with Vada Pav. Save ₹30.", 240, "#C2602A"],
+    ["combos", "Café Latte + Chocolate Brownie", "Regular Café Latte with Chocolate Brownie. Save ₹40.", 320, "#D9A44E"],
+    ["combos", "Café Latte + Paneer Tikka Sandwich", "Regular Café Latte with Paneer Tikka Sandwich. Save ₹50.", 370, "#E2B66A"],
+    ["combos", "Café Latte + Samosa (2 pcs)", "Regular Café Latte with Samosa (2 pcs). Save ₹30.", 250, "#7A5BA8"],
+    ["combos", "Iced Masala Chai + Butter Croissant", "Regular Iced Masala Chai with Butter Croissant. Save ₹40.", 260, "#7AA84F"],
+    ["combos", "Iced Masala Chai + Vada Pav", "Regular Iced Masala Chai with Vada Pav. Save ₹30.", 190, "#EAD8B8"],
+    ["combos", "Iced Masala Chai + Chocolate Brownie", "Regular Iced Masala Chai with Chocolate Brownie. Save ₹40.", 270, "#B07A48"],
+    ["combos", "Iced Masala Chai + Paneer Tikka Sandwich", "Regular Iced Masala Chai with Paneer Tikka Sandwich. Save ₹40.", 330, "#F0C24A"],
+    ["combos", "Iced Masala Chai + Samosa (2 pcs)", "Regular Iced Masala Chai with Samosa (2 pcs). Save ₹30.", 200, "#C98A4A"],
+    ["combos", "Classic Cold Coffee + Butter Croissant", "Regular Classic Cold Coffee with Butter Croissant. Save ₹40.", 300, "#6B3E22"],
+    ["combos", "Classic Cold Coffee + Vada Pav", "Regular Classic Cold Coffee with Vada Pav. Save ₹30.", 230, "#4A2A1C"],
+    ["combos", "Classic Cold Coffee + Chocolate Brownie", "Regular Classic Cold Coffee with Chocolate Brownie. Save ₹40.", 310, "#9C3A2A"],
+    ["combos", "Classic Cold Coffee + Paneer Tikka Sandwich", "Regular Classic Cold Coffee with Paneer Tikka Sandwich. Save ₹50.", 360, "#B2223A"],
+    ["combos", "Classic Cold Coffee + Samosa (2 pcs)", "Regular Classic Cold Coffee with Samosa (2 pcs). Save ₹30.", 240, "#E8C64E"],
+    ["combos", "Lemon Mint Iced Tea + Butter Croissant", "Regular Lemon Mint Iced Tea with Butter Croissant. Save ₹40.", 270, "#8A3A1E"],
+    ["combos", "Lemon Mint Iced Tea + Vada Pav", "Regular Lemon Mint Iced Tea with Vada Pav. Save ₹30.", 200, "#E07A3C"],
+    ["combos", "Lemon Mint Iced Tea + Chocolate Brownie", "Regular Lemon Mint Iced Tea with Chocolate Brownie. Save ₹40.", 280, "#C2602A"],
+    ["combos", "Lemon Mint Iced Tea + Paneer Tikka Sandwich", "Regular Lemon Mint Iced Tea with Paneer Tikka Sandwich. Save ₹50.", 330, "#D9A44E"],
+    ["combos", "Lemon Mint Iced Tea + Samosa (2 pcs)", "Regular Lemon Mint Iced Tea with Samosa (2 pcs). Save ₹30.", 210, "#E2B66A"],
+    ["combos", "Hot Chocolate + Butter Croissant", "Regular Hot Chocolate with Butter Croissant. Save ₹40.", 320, "#7A5BA8"],
+    ["combos", "Hot Chocolate + Vada Pav", "Regular Hot Chocolate with Vada Pav. Save ₹30.", 250, "#7AA84F"],
+    ["combos", "Hot Chocolate + Chocolate Brownie", "Regular Hot Chocolate with Chocolate Brownie. Save ₹40.", 330, "#EAD8B8"],
+    ["combos", "Hot Chocolate + Paneer Tikka Sandwich", "Regular Hot Chocolate with Paneer Tikka Sandwich. Save ₹50.", 380, "#B07A48"],
+    ["combos", "Hot Chocolate + Samosa (2 pcs)", "Regular Hot Chocolate with Samosa (2 pcs). Save ₹30.", 260, "#F0C24A"],
+    ["combos", "Matcha Latte + Butter Croissant", "Regular Matcha Latte with Butter Croissant. Save ₹50.", 340, "#C98A4A"],
+    ["combos", "Matcha Latte + Vada Pav", "Regular Matcha Latte with Vada Pav. Save ₹40.", 270, "#6B3E22"],
+    ["combos", "Matcha Latte + Chocolate Brownie", "Regular Matcha Latte with Chocolate Brownie. Save ₹50.", 350, "#4A2A1C"],
+    ["combos", "Matcha Latte + Paneer Tikka Sandwich", "Regular Matcha Latte with Paneer Tikka Sandwich. Save ₹60.", 400, "#9C3A2A"],
+    ["combos", "Matcha Latte + Samosa (2 pcs)", "Regular Matcha Latte with Samosa (2 pcs). Save ₹40.", 280, "#B2223A"],
+    ["hotcoffee","Filter Kaapi","South Indian decoction with frothy milk, served in a steel davara.",120,"#C9925B",{f:"Bestseller",m:1}],
+    ["hotcoffee","Malabar Pour-over","Monsooned Malabar beans, slow-poured. Earthy, low acid, smooth.",220,"#6B3E22",{m:1}],
+    ["hotcoffee","Cappuccino","Double espresso under a thick cap of steamed milk foam.",190,"#B98257"],
+    ["hotcoffee","Café Latte","Espresso with silky steamed milk and a thin layer of foam.",200,"#C8A07A"],
+    ["hotcoffee","Café Mocha","Espresso, dark cocoa and milk, topped with chocolate shavings.",230,"#5A3424"],
+    ["hotcoffee","Flat White","Ristretto shots with velvety micro-foam.",200,"#B48A62"],
+    ["hotcoffee","Americano","Espresso topped with hot water. Bold and clean.",160,"#3E2416"],
+    ["hotcoffee","Espresso Doppio","Two shots of our house blend.",140,"#2E1A10",{n:1}],
+    ["coldcoffee","Cold Brew","Steeped for 18 hours, served over ice. Strong and naturally sweet.",210,"#3E2416",{f:"New"}],
+    ["coldcoffee","Iced Hazelnut Latte","Espresso, hazelnut syrup and cold milk over ice.",250,"#C59A70"],
+    ["coldcoffee","Coconut Cold Brew","Cold brew shaken with tender coconut water. Light and fresh.",270,"#8A6A4A",{m:1}],
+    ["coldcoffee","Iced Americano","Espresso and cold water over ice.",180,"#4A2A1C"],
+    ["coldcoffee","Condensed Milk Iced Coffee","Strong drip coffee poured over sweet condensed milk and ice.",240,"#9C6B44"],
+    ["chai","Masala Chai","Assam tea boiled with ginger, cardamom and clove.",110,"#B07A48",{f:"Bestseller"}],
+    ["chai","Ginger Cutting Chai","Small, strong and extra gingery. Perfect for rainy days.",90,"#A86B3C",{m:1}],
+    ["chai","Iced Masala Chai","Our masala chai, chilled and poured over ice.",150,"#C08A58",{k:"iced"}],
+    ["matcha","Matcha Latte","Ceremonial-grade matcha whisked into steamed milk.",240,"#7FA65A"],
+    ["matcha","Iced Matcha Latte","Matcha and cold milk over ice.",260,"#8DB86A",{k:"iced"}],
+    ["hottea","Darjeeling First Flush","Light, floral black tea from the spring harvest.",160,"#D9A45B"],
+    ["hottea","Kashmiri Kahwa","Green tea with saffron, cinnamon and almonds.",180,"#E3B94F",{m:1}],
+    ["hottea","Chamomile","Caffeine-free flowers, calm and mellow.",150,"#EAD58A"],
+    ["icedtea","Peach Iced Tea","Black tea shaken with peach and ice.",170,"#E08A3C"],
+    ["icedtea","Lemon Mint Iced Tea","Green tea, lemon and fresh mint.",160,"#D2B44A"],
+    ["coolers","Kokum Cooler","Tangy kokum with a pinch of black salt and cumin.",170,"#9C2A4A",{m:1}],
+    ["coolers","Watermelon Mint Cooler","Fresh watermelon blended with mint and lime.",180,"#E2546A",{f:"New"}],
+    ["coolers","Kala Khatta Fizz","Jamun syrup, lime and soda.",170,"#5B2850"],
+    ["juice","Fresh Orange Juice","Pressed to order. No added sugar.",160,"#F2A33A"],
+    ["juice","Sugarcane Lime","Fresh sugarcane juice with lime and ginger.",140,"#C9C76A"],
+    ["cfrappe","Coffee Frappé","Blended coffee, milk and ice with whipped cream.",260,"#D3B08A"],
+    ["cfrappe","Mocha Chip Frappé","Coffee, cocoa and chocolate chips blended with ice.",280,"#7A4A30"],
+    ["cfrappe","Caramel Frappé","Coffee and caramel blended, with a caramel drizzle.",280,"#C98A4A"],
+    ["crfrappe","Mango Cream Frappé","Alphonso mango, milk and ice. No coffee.",270,"#F2B33D",{f:"New"}],
+    ["crfrappe","Vanilla Bean Cream Frappé","Vanilla bean, milk and ice. No coffee.",250,"#F1E6D2"],
+    ["crfrappe","Strawberry Cream Frappé","Strawberry purée, milk and ice. No coffee.",270,"#EE8FA0"],
+    ["cocoa","Hot Chocolate","Rich cocoa with steamed milk and whipped cream.",210,"#5A3424"],
+    ["cocoa","Haldi Doodh","Warm turmeric milk with black pepper and honey.",150,"#E7B53C",{m:1}],
+    ["cocoa","Badam Milk","Steamed milk with almonds, saffron and cardamom.",170,"#EBD49A"],
+    ["bottled","Mineral Water","500 ml bottle.",40,"#BFE1EA",{n:1}],
+    ["bottled","Bottled Cold Coffee","Ready-to-drink cold coffee, 250 ml.",150,"#9C6B44",{n:1}],
+    ["whole","Monsooned Malabar · 250 g","Earthy and low in acid. Whole beans.",650,"#1E6B66"],
+    ["whole","Chikmagalur Estate · 250 g","Chocolate and orange notes. Medium roast.",600,"#9C3A2A"],
+    ["whole","Coorg Dark Roast · 250 g","Smoky and bold. Great for filter.",580,"#2E1A10"],
+    ["instant","Instant Coffee Sachets · 10 pack","Just add hot water or milk.",300,"#C98A4A"],
+    ["instant","Filter Decoction Bottle · 200 ml","Ready decoction for filter kaapi at home.",350,"#6B3E22"],
+    ["hotcoffee","Cortado","Equal parts espresso and warm milk.",180,"#A57A54"],
+    ["hotcoffee","Caramel Latte","Latte with house caramel sauce.",230,"#C9904A"],
+    ["hotcoffee","Cardamom Latte","Latte infused with green cardamom.",220,"#C8A57A",{m:1}],
+    ["hotcoffee","Jaggery Cappuccino","Cappuccino sweetened with organic jaggery.",210,"#9C6B44",{f:"New"}],
+    ["hotcoffee","Irish Cream Latte","Latte with Irish cream syrup. No alcohol.",240,"#B98A62"],
+    ["hotcoffee","Macchiato","Espresso marked with a spoon of milk foam.",160,"#5A3424",{n:1}],
+    ["coldcoffee","Iced Caramel Latte","Espresso, caramel and cold milk over ice.",250,"#C9904A"],
+    ["coldcoffee","Iced Mocha","Espresso, cocoa and cold milk over ice.",250,"#6B3E22"],
+    ["coldcoffee","Nitro Cold Brew","Cold brew poured with nitrogen for a creamy top.",280,"#2E1A10",{f:"New"}],
+    ["coldcoffee","Espresso Tonic","Espresso over tonic water and ice, with orange peel.",230,"#B57A3C"],
+    ["coldcoffee","Classic Cold Coffee","Thick blended cold coffee, the way Indian cafés make it.",190,"#B98A62",{f:"Bestseller"}],
+    ["single","Baba Budangiri Pour-over","From the hills where coffee first grew in India. Bright and fruity.",260,"#6B3E22"],
+    ["single","Araku Valley Aeropress","Grown by tribal farmers in Andhra Pradesh. Notes of jaggery and plum.",280,"#7A4A30",{f:"New"}],
+    ["single","Nilgiris French Press","Full-bodied with a spicy finish.",250,"#5A3424"],
+    ["single","Coorg Robusta Kaapi","Strong robusta brewed in a traditional steel filter.",150,"#3E2416"],
+    ["chai","Elaichi Chai","Milky tea with crushed green cardamom.",110,"#C08A58"],
+    ["chai","Tulsi Chai","Black tea with holy basil and ginger.",120,"#A07A48"],
+    ["chai","Chai Latte","Spiced chai with steamed milk foam.",180,"#C8A07A"],
+    ["chai","Irani Chai","Slow-brewed tea with thick, creamy milk.",130,"#C49A6C"],
+    ["matcha","Matcha Coconut Latte","Matcha with creamy coconut milk.",270,"#92B870"],
+    ["matcha","Strawberry Matcha","Iced matcha layered over strawberry milk.",290,"#9CC27A",{k:"iced",f:"New"}],
+    ["hottea","Nilgiri Green Tea","Smooth green tea from the Blue Mountains.",150,"#C5C46A"],
+    ["hottea","Lemon Ginger Honey","Hot water with lemon, ginger and honey. No caffeine.",140,"#E6C64A",{m:1}],
+    ["hottea","Assam Breakfast Tea","Strong black tea. Add milk if you like.",140,"#8A4A22"],
+    ["hottea","Hibiscus Rose","Caffeine-free hibiscus and rose petals.",160,"#B23A4A"],
+    ["icedtea","Mango Iced Tea","Black tea with Alphonso mango.",180,"#F0A93A"],
+    ["icedtea","Passion Fruit Iced Tea","Green tea shaken with passion fruit.",180,"#E9B83C"],
+    ["icedtea","Hibiscus Iced Tea","Chilled hibiscus with lime. No caffeine.",170,"#B22A44"],
+    ["coolers","Aam Panna","Raw mango cooler with roasted cumin.",160,"#C8C85A",{m:1}],
+    ["coolers","Nimbu Masala Soda","Fresh lime, black salt and soda.",120,"#D9E07A"],
+    ["coolers","Pineapple Ginger Cooler","Pineapple juice with ginger and mint.",180,"#F1C43A"],
+    ["coolers","Blue Lagoon Mocktail","Blue curaçao syrup, lime and soda. No alcohol.",190,"#3A8EC4"],
+    ["juice","Mosambi Juice","Fresh sweet lime juice.",140,"#E6D86A"],
+    ["juice","Pomegranate Juice","Pressed pomegranate. No added sugar.",190,"#B2223A"],
+    ["juice","Green Detox","Spinach, cucumber, apple and lime.",200,"#6AA84F"],
+    ["juice","Carrot Beet Ginger","Carrot, beetroot and ginger.",180,"#C2413A"],
+    ["cfrappe","Java Chip Frappé","Coffee blended with chocolate chips and whipped cream.",290,"#5A3424"],
+    ["cfrappe","Hazelnut Frappé","Coffee and hazelnut blended with ice.",280,"#B98A62"],
+    ["cfrappe","Filter Kaapi Frappé","Our filter decoction blended with milk and ice.",250,"#C9925B",{f:"Bestseller"}],
+    ["crfrappe","Chocolate Cream Frappé","Cocoa, milk and ice. No coffee.",260,"#6B3E22"],
+    ["crfrappe","Coconut Jaggery Frappé","Coconut milk and jaggery blended with ice.",270,"#D8B88A",{m:1}],
+    ["crfrappe","Green Tea Cream Frappé","Matcha, milk and ice.",280,"#8DB86A"],
+    ["cocoa","White Hot Chocolate","Creamy white chocolate with steamed milk.",220,"#F1E6D2"],
+    ["cocoa","Spiced Hot Chocolate","Dark cocoa with cinnamon and chilli.",230,"#4A2A1C"],
+    ["cocoa","Kesar Pista Milk","Warm milk with saffron and pistachio.",190,"#E8CF7A"],
+    ["bottled","Sparkling Water","330 ml can.",80,"#BFE1EA",{n:1}],
+    ["bottled","Tender Coconut Water","Fresh coconut water, 200 ml.",90,"#D9E6B8",{n:1}],
+    ["bottled","Bottled Iced Tea","Lemon iced tea, 330 ml.",120,"#D2A44A",{n:1}],
+    ["kids","Kids' Hot Chocolate","Small hot chocolate, not too hot.",140,"#7A4A30",{n:1}],
+    ["kids","Warm Vanilla Milk","Steamed milk with a little vanilla.",120,"#F1E6D2",{n:1}],
+    ["kids","Rose Milk","Chilled milk with rose syrup.",130,"#F2A0B4",{n:1,k:"iced"}],
+    ["shakes","Chocolate Milkshake","Thick chocolate shake with ice cream.",240,"#6B3E22"],
+    ["shakes","Strawberry Milkshake","Strawberry ice cream and milk.",240,"#EE8FA0"],
+    ["shakes","Cookie Crunch Shake","Blended chocolate cookies, ice cream and milk.",260,"#4A3A34"],
+    ["shakes","Banana Date Shake","Banana and dates blended with milk. No added sugar.",220,"#D9B46A",{f:"New"}],
+    ["whole","Araku Valley · 250 g","Fruity and sweet. Light roast.",700,"#7A4A30"],
+    ["whole","Baba Budangiri · 250 g","Bright with citrus notes. Medium roast.",680,"#B57A3C"],
+    ["whole","House Espresso Blend · 500 g","Our café blend for espresso machines.",950,"#3E2416"],
+    ["instant","Cold Brew Concentrate · 500 ml","Mix 1 part with 2 parts water or milk.",450,"#2E1A10"],
+    ["instant","Filter Coffee Powder · 250 g","Ground coffee with 20% chicory for filter kaapi.",320,"#6B3E22"],
+    ["gear","Steel South Indian Filter","Traditional two-part coffee filter, 4 cups.",450,"#9AA3A8"],
+    ["gear","French Press · 600 ml","Glass and steel plunger brewer.",1200,"#3B2418"],
+    ["gear","Pour-over Dripper Kit","Ceramic dripper with 50 paper filters.",900,"#E8E0D4"],
+    ["gear","Monsoon Bean Mug","Ceramic mug, 350 ml.",400,"#1E6B66"]
+  ];
+  var ORIGINS = [
+    {n:"Chikmagalur",st:"Karnataka",alt:"1,100–1,500 m",sp:"Arabica",pr:"Washed",notes:["Cocoa","Orange","Brown sugar"]},
+    {n:"Coorg",st:"Karnataka",alt:"900–1,300 m",sp:"Arabica & Robusta",pr:"Natural",notes:["Spice","Dark chocolate","Molasses"]},
+    {n:"Baba Budangiri",st:"Karnataka",alt:"1,400–1,700 m",sp:"Arabica",pr:"Washed",notes:["Citrus","Jasmine","Honey"]},
+    {n:"Araku Valley",st:"Andhra Pradesh",alt:"900–1,100 m",sp:"Arabica",pr:"Honey",notes:["Jaggery","Plum","Black tea"]},
+    {n:"Nilgiris",st:"Tamil Nadu",alt:"1,200–1,800 m",sp:"Arabica",pr:"Washed",notes:["Clove","Caramel","Red apple"]},
+    {n:"Malabar Coast",st:"Kerala",alt:"Sea level (curing)",sp:"Arabica, monsooned",pr:"Monsooned 12–16 weeks",notes:["Earthy","Cedar","Low acid"]}
+  ];
+  var STORES = [{"n": "Bandra West", "c": "Mumbai", "st": "Maharashtra", "o": 7, "cl": 23, "am": ["Outdoor seating", "Wi-Fi", "Live music Fri"]}, {"n": "Lower Parel", "c": "Mumbai", "st": "Maharashtra", "o": 7, "cl": 23.5, "am": ["Roastery bar", "Private lounge", "Wi-Fi"]}, {"n": "Andheri West", "c": "Mumbai", "st": "Maharashtra", "o": 7.5, "cl": 24, "am": ["Lake view", "EV charging", "Wi-Fi"]}, {"n": "Powai", "c": "Mumbai", "st": "Maharashtra", "o": 8, "cl": 23, "am": ["Private lounge", "Study tables", "Wi-Fi"]}, {"n": "Colaba", "c": "Mumbai", "st": "Maharashtra", "o": 7, "cl": 22.5, "am": ["Sea view", "Wi-Fi"]}, {"n": "Juhu", "c": "Mumbai", "st": "Maharashtra", "o": 6.5, "cl": 23, "am": ["Sea view", "Outdoor seating", "Wi-Fi"]}, {"n": "Thane West", "c": "Mumbai", "st": "Maharashtra", "o": 8, "cl": 24, "am": ["Lake view", "Sea view", "Wi-Fi"]}, {"n": "Vashi, Navi Mumbai", "c": "Mumbai", "st": "Maharashtra", "o": 7, "cl": 23, "am": ["Private lounge", "Wi-Fi"]}, {"n": "Koregaon Park", "c": "Pune", "st": "Maharashtra", "o": 7, "cl": 23.5, "am": ["Drive-through", "Private lounge", "Pet friendly"]}, {"n": "FC Road", "c": "Pune", "st": "Maharashtra", "o": 7.5, "cl": 24, "am": ["Pet friendly", "Live music Fri", "Wi-Fi"]}, {"n": "Baner", "c": "Pune", "st": "Maharashtra", "o": 8, "cl": 23, "am": ["Lake view", "Pet friendly", "Wi-Fi"]}, {"n": "Viman Nagar", "c": "Pune", "st": "Maharashtra", "o": 7, "cl": 22.5, "am": ["Private lounge", "Rooftop", "Wi-Fi"]}, {"n": "Kalyani Nagar", "c": "Pune", "st": "Maharashtra", "o": 6.5, "cl": 23, "am": ["Wi-Fi", "Outdoor seating"]}, {"n": "Hinjewadi", "c": "Pune", "st": "Maharashtra", "o": 8, "cl": 24, "am": ["Pet friendly", "Lake view", "Wi-Fi"]}, {"n": "Indiranagar", "c": "Bengaluru", "st": "Karnataka", "o": 7, "cl": 23, "am": ["Roastery bar", "Wi-Fi", "Pet friendly"]}, {"n": "Koramangala", "c": "Bengaluru", "st": "Karnataka", "o": 7, "cl": 23.5, "am": ["Private lounge", "Study tables", "Wi-Fi"]}, {"n": "Whitefield", "c": "Bengaluru", "st": "Karnataka", "o": 7.5, "cl": 24, "am": ["Wi-Fi", "Private lounge"]}, {"n": "HSR Layout", "c": "Bengaluru", "st": "Karnataka", "o": 8, "cl": 23, "am": ["Pet friendly", "Drive-through", "Wi-Fi"]}, {"n": "Jayanagar", "c": "Bengaluru", "st": "Karnataka", "o": 7, "cl": 22.5, "am": ["Lake view", "Sea view", "Wi-Fi"]}, {"n": "MG Road", "c": "Bengaluru", "st": "Karnataka", "o": 6.5, "cl": 23, "am": ["Private lounge", "Wi-Fi"]}, {"n": "Malleshwaram", "c": "Bengaluru", "st": "Karnataka", "o": 8, "cl": 24, "am": ["Wi-Fi", "Roastery bar"]}, {"n": "Hauz Khas", "c": "Delhi NCR", "st": "Delhi", "o": 7, "cl": 23, "am": ["Lake view", "Rooftop", "Wi-Fi"]}, {"n": "Connaught Place", "c": "Delhi NCR", "st": "Delhi", "o": 7, "cl": 23.5, "am": ["Lake view", "Pet friendly", "Wi-Fi"]}, {"n": "Khan Market", "c": "Delhi NCR", "st": "Delhi", "o": 7.5, "cl": 24, "am": ["Private lounge", "Rooftop", "Wi-Fi"]}, {"n": "Saket", "c": "Delhi NCR", "st": "Delhi", "o": 8, "cl": 23, "am": ["Wi-Fi", "Outdoor seating"]}, {"n": "Cyber Hub, Gurugram", "c": "Delhi NCR", "st": "Delhi", "o": 7, "cl": 22.5, "am": ["Pet friendly", "Lake view", "Wi-Fi"]}, {"n": "Sector 18, Noida", "c": "Delhi NCR", "st": "Delhi", "o": 6.5, "cl": 23, "am": ["Lake view", "EV charging", "Wi-Fi"]}, {"n": "Vasant Kunj", "c": "Delhi NCR", "st": "Delhi", "o": 8, "cl": 24, "am": ["Private lounge", "Study tables", "Wi-Fi"]}, {"n": "Banjara Hills", "c": "Hyderabad", "st": "Telangana", "o": 7, "cl": 23, "am": ["Drive-through", "Private lounge", "Wi-Fi"]}, {"n": "Jubilee Hills", "c": "Hyderabad", "st": "Telangana", "o": 7, "cl": 23.5, "am": ["Pet friendly", "Drive-through", "Wi-Fi"]}, {"n": "HITEC City", "c": "Hyderabad", "st": "Telangana", "o": 7.5, "cl": 24, "am": ["Lake view", "Sea view", "Wi-Fi"]}, {"n": "Gachibowli", "c": "Hyderabad", "st": "Telangana", "o": 8, "cl": 23, "am": ["Private lounge", "Wi-Fi"]}, {"n": "Nungambakkam", "c": "Chennai", "st": "Tamil Nadu", "o": 7, "cl": 22.5, "am": ["Wi-Fi", "Roastery bar"]}, {"n": "Besant Nagar", "c": "Chennai", "st": "Tamil Nadu", "o": 6.5, "cl": 23, "am": ["Pet friendly", "Live music Fri", "Wi-Fi"]}, {"n": "Anna Nagar", "c": "Chennai", "st": "Tamil Nadu", "o": 8, "cl": 24, "am": ["Lake view", "Pet friendly", "Wi-Fi"]}, {"n": "T. Nagar", "c": "Chennai", "st": "Tamil Nadu", "o": 7, "cl": 23, "am": ["Private lounge", "Rooftop", "Wi-Fi"]}, {"n": "Park Street", "c": "Kolkata", "st": "West Bengal", "o": 7, "cl": 23.5, "am": ["Wi-Fi", "Outdoor seating"]}, {"n": "Salt Lake", "c": "Kolkata", "st": "West Bengal", "o": 7.5, "cl": 24, "am": ["Pet friendly", "Lake view", "Wi-Fi"]}, {"n": "Ballygunge", "c": "Kolkata", "st": "West Bengal", "o": 8, "cl": 23, "am": ["Lake view", "EV charging", "Wi-Fi"]}, {"n": "SG Highway", "c": "Ahmedabad", "st": "Gujarat", "o": 7, "cl": 22.5, "am": ["Private lounge", "Study tables", "Wi-Fi"]}, {"n": "Navrangpura", "c": "Ahmedabad", "st": "Gujarat", "o": 6.5, "cl": 23, "am": ["Wi-Fi", "Private lounge"]}, {"n": "College Road", "c": "Nashik", "st": "Maharashtra", "o": 8, "cl": 24, "am": ["Pet friendly", "Drive-through", "Wi-Fi"]}, {"n": "Indira Nagar", "c": "Nashik", "st": "Maharashtra", "o": 7, "cl": 23, "am": ["Lake view", "Sea view", "Wi-Fi"]}, {"n": "C-Scheme", "c": "Jaipur", "st": "Rajasthan", "o": 7, "cl": 23.5, "am": ["Private lounge", "Wi-Fi"]}, {"n": "Malviya Nagar", "c": "Jaipur", "st": "Rajasthan", "o": 7.5, "cl": 24, "am": ["Wi-Fi", "Roastery bar"]}, {"n": "Panaji", "c": "Goa", "st": "Goa", "o": 8, "cl": 23, "am": ["Pet friendly", "Live music Fri", "Wi-Fi"]}, {"n": "Anjuna", "c": "Goa", "st": "Goa", "o": 7, "cl": 22.5, "am": ["Sea view", "Live music Fri", "Outdoor seating"]}, {"n": "Sector 17", "c": "Chandigarh", "st": "Chandigarh", "o": 6.5, "cl": 23, "am": ["Private lounge", "Rooftop", "Wi-Fi"]}, {"n": "Fort Kochi", "c": "Kochi", "st": "Kerala", "o": 8, "cl": 24, "am": ["Sea view", "Outdoor seating"]}, {"n": "Hazratganj", "c": "Lucknow", "st": "Uttar Pradesh", "o": 7, "cl": 23, "am": ["Pet friendly", "Lake view", "Wi-Fi"]}, {"n": "Vijay Nagar", "c": "Indore", "st": "Madhya Pradesh", "o": 7, "cl": 23.5, "am": ["Lake view", "EV charging", "Wi-Fi"]}, {"n": "Dharampeth", "c": "Nagpur", "st": "Maharashtra", "o": 7.5, "cl": 24, "am": ["Private lounge", "Study tables", "Wi-Fi"]}, {"n": "RS Puram", "c": "Coimbatore", "st": "Tamil Nadu", "o": 8, "cl": 23, "am": ["Wi-Fi", "Private lounge"]}, {"n": "Gokulam", "c": "Mysuru", "st": "Karnataka", "o": 7, "cl": 22.5, "am": ["Pet friendly", "Drive-through", "Wi-Fi"]}, {"n": "Vesu", "c": "Surat", "st": "Gujarat", "o": 6.5, "cl": 23, "am": ["Lake view", "Sea view", "Wi-Fi"]}];
+
+  var SUBMAP = {};
+  CATS.forEach(function(c){ c.subs.forEach(function(s){ s.cat = c.name; SUBMAP[s.id] = s; }); });
+  var MENU = RAW.map(function(r,i){
+    var o = r[5] || {}, sub = SUBMAP[r[0]];
+    var kind = o.k || sub.kind;
+    return {id:i+1, sub:r[0], name:r[1], desc:r[2], price:r[3], color:r[4], flag:o.f, monsoon:!!o.m, kind:kind,
+      sizes:!o.n && (kind==="hot"||kind==="iced"||kind==="blend")};
+  });
+  function itemsFor(id){
+    if (id === "trending") return MENU.filter(function(m){ return m.flag; });
+    if (id === "monsoon") return MENU.filter(function(m){ return m.monsoon; });
+    return MENU.filter(function(m){ return m.sub === id; });
+  }
+  var SIZES = [{n:"Small",add:0},{n:"Medium",add:30},{n:"Large",add:60}];
+
+  /* ================= HELPERS ================= */
+  function $(id){ return document.getElementById(id); }
+  function rs(n){ return "₹" + Number(n).toLocaleString("en-IN"); }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function load(k, d){ try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } }
+  function store(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  function toast(msg){ var t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(function(){ t.hidden = true; }, 2000); }
+
+  function art(it){
+    var c = it.color, k = it.kind;
+    if (k === "food") return '<svg viewBox="0 0 120 100" aria-hidden="true"><ellipse cx="60" cy="82" rx="54" ry="12" fill="#F4F1EC"/><ellipse cx="60" cy="80" rx="44" ry="8" fill="#E6E0D6"/><path d="M24 76 Q26 34 60 30 Q94 34 96 76 Z" fill="'+c+'"/><path d="M38 52 q8 -8 16 0 M62 46 q8 -8 16 0" stroke="rgba(255,255,255,.45)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>';
+    if (k === "bag") return '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M30 20 h60 l8 90 h-76 z" fill="'+c+'"/><path d="M30 20 l10 -10 h40 l10 10" fill="#F4ECE0"/><rect x="40" y="50" width="40" height="32" rx="4" fill="#F4ECE0"/><ellipse cx="60" cy="66" rx="7" ry="11" fill="'+c+'" transform="rotate(25 60 66)"/></svg>';
+    if (k === "bottle") return '<svg viewBox="0 0 120 120" aria-hidden="true"><rect x="50" y="6" width="20" height="12" rx="3" fill="#F4ECE0"/><path d="M50 18 h20 v12 q14 8 14 22 v56 a6 6 0 0 1 -6 6 h-36 a6 6 0 0 1 -6 -6 v-56 q0 -14 14 -22 z" fill="'+c+'"/><rect x="38" y="60" width="44" height="26" fill="#F4ECE0" opacity=".85"/></svg>';
+    var iced = k === "iced", blend = k === "blend";
+    if (!iced && !blend) return '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M46 22 q-6 -8 0 -16 M60 22 q-6 -8 0 -16 M74 22 q-6 -8 0 -16" stroke="#B9B0A6" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="58" cy="104" rx="46" ry="8" fill="#ECE6DE"/><path d="M22 46 h72 l-6 40 a16 16 0 0 1 -16 14 h-28 a16 16 0 0 1 -16 -14 z" fill="#FFFFFF"/><path d="M92 54 q16 0 15 14 q-1 12 -19 12" stroke="#FFFFFF" stroke-width="7" fill="none"/><ellipse cx="58" cy="46" rx="36" ry="8" fill="#EDE7DF"/><ellipse cx="58" cy="47" rx="31" ry="6" fill="'+c+'"/></svg>';
+    return '<svg viewBox="0 0 120 120" aria-hidden="true"><rect x="58" y="0" width="5" height="34" rx="2.5" fill="#B88A3D" transform="rotate(8 60 20)"/>' +
+      '<path d="M32 30 h56 l-7 80 a6 6 0 0 1 -6 5 h-30 a6 6 0 0 1 -6 -5 z" fill="#FFFFFF" opacity=".6"/>' +
+      '<path d="M34 44 h52 l-6 64 a5 5 0 0 1 -5 4 h-30 a5 5 0 0 1 -5 -4 z" fill="'+c+'"/>' +
+      (iced ? '<rect x="42" y="56" width="13" height="13" rx="2" fill="rgba(255,255,255,.5)"/><rect x="62" y="70" width="13" height="13" rx="2" fill="rgba(255,255,255,.5)"/><rect x="29" y="27" width="62" height="5" rx="2" fill="rgba(255,255,255,.75)"/>' : '<path d="M32 32 q0 -18 28 -20 q28 2 28 20 z" fill="#FFF8EE"/>') +
+      '</svg>';
+  }
+  function tint(c){ return 'color-mix(in srgb,'+c+' 16%, var(--surface))'; }
+
+  function card(m){
+    var sel = m.sizes ? '<select id="size-'+m.id+'" aria-label="Size for '+esc(m.name)+'">' + SIZES.map(function(s,i){ return '<option value="'+i+'">'+s.n+(s.add?' +'+rs(s.add):'')+'</option>'; }).join("") + '</select>' : '<span class="one">'+(m.kind==="food"?"Made today":"One size")+'</span>';
+    return '<article class="card">' +
+      '<div class="pic" style="background:'+tint(m.color)+'">'+art(m)+(m.flag?'<span class="flag">'+m.flag+'</span>':'')+'</div>' +
+      '<h3>'+esc(m.name)+'</h3><p>'+esc(m.desc)+'</p>' +
+      '<div class="row">'+sel+'<span class="price">'+rs(m.price)+'</span></div>' +
+      '<button class="add" data-add="'+m.id+'">Add to cart</button></article>';
+  }
+
+  /* ================= ROUTER ================= */
+  var PAGES = ["home","menu","coffee","rewards","gifts","stores","contact"];
+  function route(){
+    var r = (location.hash || "#home").slice(1);
+    if (PAGES.indexOf(r) < 0) r = "home";
+    var els = document.querySelectorAll("[data-page]");
+    for (var i=0;i<els.length;i++){ var on = els[i].getAttribute("data-page") === r; els[i].hidden = !on; els[i].classList.remove("enter"); if (on){ void els[i].offsetWidth; els[i].classList.add("enter"); } }
+    setTimeout(function(){ if (typeof armReveal === "function") armReveal(); }, 60);
+    var navs = document.querySelectorAll("[data-nav]");
+    for (var j=0;j<navs.length;j++) navs[j].classList.toggle("on", navs[j].getAttribute("data-nav") === r);
+    $("mainnav").classList.remove("open"); $("burger").setAttribute("aria-expanded","false");
+    closeCart();
+    if (r === "rewards") renderAccount();
+    if (r === "contact") renderTickets();
+    window.scrollTo(0,0);
+  }
+  window.addEventListener("hashchange", route);
+  $("burger").onclick = function(){ var o = $("mainnav").classList.toggle("open"); this.setAttribute("aria-expanded", o); };
+
+  /* ================= HOME ================= */
+  function renderHome(){
+    var o = ORIGINS.map(function(x){ return '<span>'+x.n+', '+x.st+'</span>'; }).join("");
+    $("marquee").innerHTML = o + o;
+    $("bestsellers").innerHTML = MENU.filter(function(m){ return m.flag === "Bestseller"; }).slice(0,12).map(card).join("");
+  }
+
+  /* ================= MENU ================= */
+  var currentSub = null, query = "";
+  function renderSide(){
+    $("side").innerHTML = CATS.map(function(c,ci){
+      return '<div class="mcat"><button class="catbtn" data-gocat="'+ci+'">'+c.name+'</button><div class="subs">' +
+        c.subs.map(function(s){ return '<button data-sub="'+s.id+'" aria-current="'+(s.id===currentSub)+'">'+s.name+'</button>'; }).join("") + '</div></div>';
+    }).join("");
+  }
+  function renderMenu(){
+    renderSide();
+    $("menuCount").textContent = MENU.length + " drinks, dishes and coffees to take home, from filter kaapi to Hyderabadi biryani.";
+    if (query){
+      var q = query.toLowerCase();
+      var res = MENU.filter(function(m){ return (m.name+" "+m.desc).toLowerCase().indexOf(q) > -1; });
+      $("menuMain").innerHTML = '<div class="crumb"><button data-back="1">Menu</button><span>/</span><span>Search</span></div>' +
+        '<h2 class="subtitle">“'+esc(query)+'”<span>'+res.length+' results</span></h2>' +
+        (res.length ? '<div class="grid">'+res.map(card).join("")+'</div>' : '<p class="note">Nothing matches that. Try “coffee”, “chai” or “sandwich”.</p>');
+      return;
+    }
+    if (!currentSub){
+      $("menuMain").innerHTML = CATS.map(function(c,ci){
+        return '<div class="cat" id="cat-'+ci+'"><h2>'+c.name+'</h2><div class="tiles">' +
+          c.subs.map(function(s){
+            var list = itemsFor(s.id);
+            return '<button class="tile" data-sub="'+s.id+'"><div class="circle">'+art(list[0])+'</div><span>'+s.name+'<small>'+list.length+' items</small></span></button>';
+          }).join("") + '</div></div>';
+      }).join("");
+      return;
+    }
+    var s = SUBMAP[currentSub], list = itemsFor(currentSub);
+    $("menuMain").innerHTML = '<div class="crumb"><button data-back="1">Menu</button><span>/</span><span>'+s.cat+'</span></div>' +
+      '<h2 class="subtitle">'+s.name+'<span>'+list.length+' items</span></h2><div class="grid">'+list.map(card).join("")+'</div>';
+  }
+  $("menuSearch").addEventListener("input", function(){ query = this.value.trim(); currentSub = null; renderMenu(); });
+
+  /* ================= COFFEE + STORES ================= */
+  function renderOrigins(){
+    $("origins").innerHTML = ORIGINS.map(function(o){
+      return '<div class="origin"><div class="kicker">'+o.st+'</div><h3>'+o.n+'</h3>' +
+        '<dl><dt>Elevation</dt><dd>'+o.alt+'</dd><dt>Species</dt><dd>'+o.sp+'</dd><dt>Process</dt><dd>'+o.pr+'</dd></dl>' +
+        '<div class="notes">'+o.notes.map(function(n){ return '<span>'+n+'</span>'; }).join("")+'</div></div>';
+    }).join("");
+  }
+  function fmtH(h){ var hh = Math.floor(h)%24, mm = Math.round((h%1)*60); return ((hh%12)||12)+(mm?":"+(mm<10?"0":"")+mm:"")+(hh<12?" am":" pm"); }
+  var storeCity = "All";
+  function mapsUrl(s){ return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(s.n + ", " + s.c + ", " + s.st + ", India"); }
+  function dirUrl(s){ return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(s.n + ", " + s.c + ", " + s.st + ", India"); }
+  function renderStores(){
+    var cities = {}; STORES.forEach(function(s){ cities[s.c] = (cities[s.c] || 0) + 1; });
+    var names = Object.keys(cities).sort(function(a,b){ return cities[b] - cities[a] || a.localeCompare(b); });
+    $("cityChips").innerHTML = ['All'].concat(names).map(function(c){
+      var n = c === "All" ? STORES.length : cities[c];
+      return '<button data-city="'+c+'" aria-pressed="'+(c===storeCity)+'">'+c+' <span>'+n+'</span></button>';
+    }).join("");
+    var q = ($("storeSearch").value || "").toLowerCase();
+    var now = new Date(), h = now.getHours() + now.getMinutes()/60;
+    var list = STORES.filter(function(s){ return (storeCity === "All" || s.c === storeCity) && (s.n+" "+s.c+" "+s.st).toLowerCase().indexOf(q) > -1; });
+    var openN = list.filter(function(s){ return h >= s.o && h < s.cl; }).length;
+    $("storeCount").textContent = list.length ? "Showing " + list.length + " of 55 stores · " + openN + " open right now" : "";
+    $("storeGrid").innerHTML = list.length ? list.map(function(s){
+      var open = h >= s.o && h < s.cl;
+      return '<div class="store"><div class="kicker">'+s.c+' · '+s.st+'</div><h3>'+s.n+'</h3><p>'+fmtH(s.o)+' – '+(s.cl>=24?"12 am":fmtH(s.cl))+', every day</p>' +
+        '<span class="status '+(open?'open':'closed')+'">'+(open?'Open now':'Closed now')+'</span>' +
+        '<div class="amen">'+s.am.map(function(a){ return '<span>'+a+'</span>'; }).join("")+'</div>' +
+        '<div class="maplinks"><a class="btn btn-ink btn-sm" href="'+mapsUrl(s)+'" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a><a class="btn btn-line btn-sm" href="'+dirUrl(s)+'" target="_blank" rel="noopener noreferrer">Directions ↗</a></div></div>';
+    }).join("") : '<p class="note">No stores match that search yet. Try another city.</p>';
+  }
+  $("storeSearch").addEventListener("input", renderStores);
+
+  /* ================= CART ================= */
+  var cart = load("mb-cart", []);
+  function saveCart(){ store("mb-cart", cart); }
+  function openCart(){ $("cartbox").hidden = false; $("scrim").hidden = false; }
+  function closeCart(){ $("cartbox").hidden = true; $("scrim").hidden = true; }
+  $("openCart").onclick = function(){ if ($("cartbox").hidden) openCart(); else closeCart(); };
+  $("closeCart").onclick = closeCart; $("scrim").onclick = closeCart;
+
+  var WEEKLY_GOAL = 4, WEEKLY_OFF = 0.20;
+  function weekStart(){ var d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - (d.getDay()+6)%7); return d.getTime(); }
+  function ordersThisWeek(u){ var ws = weekStart(); return (u && u.orders ? u.orders : []).filter(function(o){ return (o.t||o) >= ws; }).length; }
+  function qualifies(u){ return !!u && ordersThisWeek(u) + 1 >= WEEKLY_GOAL; }
+  function dots(n){ var h = '<span class="dots" aria-label="'+Math.min(n,4)+' of 4 orders this week">'; for (var i=0;i<4;i++) h += '<i class="'+(i<n?'on':'')+'"></i>'; return h + '</span>'; }
+  function bill(){
+    var sub = cart.reduce(function(a,l){ return a+l.unit*l.qty; },0);
+    var off = qualifies(currentUser()) ? Math.round(sub*WEEKLY_OFF) : 0;
+    var gst = Math.round((sub-off)*0.05);
+    return {sub:sub, off:off, gst:gst, total:sub-off+gst};
+  }
+  function renderCart(){
+    $("count").textContent = cart.reduce(function(a,l){ return a+l.qty; },0);
+    if (!cart.length){ $("lines").innerHTML = '<div class="empty">Your cart is empty.</div>'; $("totals").innerHTML = ""; return; }
+    $("lines").innerHTML = cart.map(function(l,i){
+      return '<div class="line"><div><strong>'+esc(l.name)+'</strong><br><small>'+esc(l.size||"Regular")+' · '+rs(l.unit)+' each</small></div>' +
+        '<div class="price">'+rs(l.unit*l.qty)+'</div>' +
+        '<div class="qty"><button data-dec="'+i+'" aria-label="Remove one">−</button><span>'+l.qty+'</span><button data-inc="'+i+'" aria-label="Add one">+</button></div></div>';
+    }).join("");
+    var b = bill(), me = currentUser(), done = ordersThisWeek(me), offer;
+    if (!me) offer = '<div class="offer">Sign in to count your visits. Your 4th order this week gets 20% off.</div>';
+    else if (b.off) offer = '<div class="offer"><strong>Weekly Regular:</strong> order '+(done+1)+' this week, so you get 20% off.</div>';
+    else offer = '<div class="offer">'+dots(done)+' <span style="margin-left:6px">Order '+(done+1)+' of 4 this week</span></div>';
+    $("totals").innerHTML = offer +
+      '<div><span>Subtotal</span><span>'+rs(b.sub)+'</span></div>' +
+      (b.off ? '<div class="save"><span>Weekly Regular (20% off)</span><span>−'+rs(b.off)+'</span></div>' : '') +
+      '<div><span>GST (5%)</span><span>'+rs(b.gst)+'</span></div>' +
+      '<div class="grand"><span>Total</span><span>'+rs(b.total)+'</span></div>' +
+      '<div style="color:var(--muted);font-size:14px"><span>You will earn</span><span>'+Math.floor(b.total/10)+' beans</span></div>' +
+      '<button class="btn btn-ink" id="checkout" style="margin-top:8px">Place order for pickup</button>';
+  }
+  function addLine(key, name, size, unit){
+    var f = cart.filter(function(l){ return l.key === key; })[0];
+    if (f) f.qty++; else cart.push({key:key, name:name, size:size, unit:unit, qty:1});
+    saveCart(); renderCart();
+  }
+
+  /* ================= ACCOUNTS ================= */
+  var users = load("mb-users", []), session = load("mb-session2", null), mode = "in";
+  function saveUsers(){ store("mb-users", users); }
+  function findUser(e){ return users.filter(function(u){ return u.email === e; })[0]; }
+  function currentUser(){ return session ? findUser(session) : null; }
+  function setSession(e){ session = e; store("mb-session2", e); renderAuth(); renderCart(); renderAccount(); }
+
+  function renderAuth(){
+    var me = currentUser();
+    $("authArea").innerHTML = me
+      ? '<span class="hello">Hi, '+esc(me.name.split(" ")[0])+'</span><button class="pill" id="signOut">Sign out</button>'
+      : '<button class="pill outline-only" id="signIn">Sign in</button><button class="pill solid" id="signUp">Join now</button>';
+  }
+  function renderAccount(){
+    var me = currentUser(), el = $("accountArea");
+    if (!me){
+      el.innerHTML = '<div class="account"><div class="panel"><h3>Start earning today</h3><p class="note">Create a free account to collect beans, unlock the Weekly Regular discount and see your order history.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-ink" id="rewardsUp">Join now</button><button class="btn btn-line" id="rewardsIn">Sign in</button></div></div>' +
+        '<div class="panel"><h3>How beans work</h3><p class="note">Every ₹10 you spend earns 1 bean. 150 beans = any drink, any size. Your beans stay with your account as long as you order once a year.</p></div></div>';
+      return;
+    }
+    var done = ordersThisWeek(me), pct = Math.min(100, Math.round(me.beans % 150 / 1.5));
+    var hist = (me.orders||[]).slice(-5).reverse().map(function(o){
+      var d = new Date(o.t||o); return '<li><span>'+(o.no||"Order")+' · '+d.toLocaleDateString("en-IN",{day:"numeric",month:"short"})+'</span><span>'+(o.total?rs(o.total):"")+'</span></li>';
+    }).join("");
+    el.innerHTML = '<div class="account">' +
+      '<div class="panel"><div class="kicker">Your beans</div><div class="beans">'+me.beans+'</div><div class="meter"><i style="width:'+pct+'%"></i></div>' +
+      '<p class="note">'+(me.beans>=150 ? "You can redeem a free drink at the counter." : (150-me.beans)+" more beans until your next free drink.")+'</p><p class="note">Signed in as '+esc(me.email)+'</p></div>' +
+      '<div class="panel"><div class="kicker">Weekly Regular</div><h3>'+(done>=3 ? "20% off is unlocked" : done+" of 4 orders this week")+'</h3>'+dots(done) +
+      '<p class="note">'+(done>=3 ? "Every order until Sunday is 20% off." : (3-done)+" more order"+(3-done===1?"":"s")+", then your next one is 20% off.")+'</p>' +
+      (hist ? '<h4 style="font-size:20px;margin-top:8px">Recent orders</h4><ul class="history">'+hist+'</ul>' : '<p class="note">No orders yet.</p>') + '</div></div>';
+  }
+  function setMode(m){
+    mode = m; var up = m === "up";
+    $("tabIn").setAttribute("aria-selected", !up); $("tabUp").setAttribute("aria-selected", up);
+    $("nameRow").hidden = !up;
+    $("authTitle").textContent = up ? "Join Bean Rewards" : "Welcome back";
+    $("authSubmit").textContent = up ? "Create account" : "Sign in";
+    $("apass").setAttribute("autocomplete", up ? "new-password" : "current-password");
+    $("authErr").hidden = true;
+  }
+  function openAuth(m, note){ setMode(m); $("authNote").hidden = !note; $("authNote").textContent = note || ""; $("authModal").hidden = false; setTimeout(function(){ (m==="up"?$("aname"):$("aemail")).focus(); }, 30); }
+  function closeAuth(){ $("authModal").hidden = true; $("authForm").reset(); }
+  function showErr(m){ $("authErr").textContent = m; $("authErr").hidden = false; }
+  $("authForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = $("aname").value.trim(), email = $("aemail").value.trim().toLowerCase(), pass = $("apass").value;
+    if (mode === "up" && !name) return showErr("Enter your full name.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr("Enter an email address like name@example.com.");
+    if (pass.length < 6) return showErr("Password must be at least 6 characters.");
+    if (mode === "up"){
+      if (findUser(email)) return showErr("An account with this email already exists. Sign in instead.");
+      users.push({name:name, email:email, pass:pass, beans:25, orders:[]}); saveUsers();
+      closeAuth(); setSession(email); toast("Welcome, "+name.split(" ")[0]+"! 25 bonus beans added");
+    } else {
+      var u = findUser(email);
+      if (!u || u.pass !== pass) return showErr("Email or password is wrong. Try again or join now.");
+      closeAuth(); setSession(email); toast("Signed in as "+u.name.split(" ")[0]);
+    }
+  });
+
+  /* ================= GIFT CARDS ================= */
+  var gc = {design:"monsoon", amt:1000};
+  function renderGift(){
+    $("gcPreview").className = "giftcard gc-" + gc.design;
+    $("gcAmt").textContent = rs(gc.amt);
+    var n = $("gcName").value.trim();
+    $("gcTo").textContent = n ? "For " + n + ($("gcMsg").value.trim() ? " · " + $("gcMsg").value.trim() : "") : "A gift for someone special";
+    var d = document.querySelectorAll("[data-design]"); for (var i=0;i<d.length;i++) d[i].setAttribute("aria-pressed", d[i].getAttribute("data-design")===gc.design);
+    var a = document.querySelectorAll("[data-amt]"); for (var j=0;j<a.length;j++) a[j].setAttribute("aria-pressed", +a[j].getAttribute("data-amt")===gc.amt);
+  }
+  $("gcName").addEventListener("input", renderGift); $("gcMsg").addEventListener("input", renderGift);
+  $("giftForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var n = $("gcName").value.trim();
+    if (!n){ $("gcErr").textContent = "Enter the recipient's name."; $("gcErr").hidden = false; return; }
+    $("gcErr").hidden = true;
+    var label = gc.design.charAt(0).toUpperCase()+gc.design.slice(1);
+    addLine("gift-"+gc.design+"-"+gc.amt+"-"+n, "Gift card · "+label, "For "+n, gc.amt);
+    bumpCart(); toast("Gift card for "+n+" added to cart");
+  });
+
+  /* ================= INFO MODALS ================= */
+  var LEGAL = {
+    privacy:{t:"Privacy policy",b:"<p>We collect your name, email and order history only to run your account and Bean Rewards.</p><p>We never sell your details. On this demo website, everything is saved only in your own browser.</p>"},
+    terms:{t:"Terms of use",b:"<p>Prices are in Indian rupees. 5% GST is added at checkout. Orders are ready for pickup in about 10 minutes.</p><p>Beans have no cash value. The Weekly Regular discount resets every Monday at midnight.</p>"},
+    sourcing:{t:"Sourcing promise",b:"<p>We buy directly from six estates in Karnataka, Andhra Pradesh, Tamil Nadu and Kerala, and pay above the market price.</p><p>Every bag lists the estate, altitude and roast date.</p>"},
+    careers:{t:"Careers",b:"<p>We're hiring baristas, roasters and store managers in Pune, Mumbai, Bengaluru and Nashik.</p><p>Send your CV to careers@monsoonbean.example.</p>"},
+    faq:{t:"FAQs",b:"<p><strong>How long does pickup take?</strong> About 10 minutes after you order.</p><p><strong>Do you have plant milk?</strong> Yes: oat, almond and coconut, at no extra cost.</p><p><strong>Is the food vegetarian?</strong> Most of it is. Items with egg or chicken say so in their name.</p>"},
+    contact:{t:"Contact us",b:"<p>Email: hello@monsoonbean.example</p><p>Phone: 1800 000 0000 (8 am – 10 pm, every day)</p>"},
+    access:{t:"Accessibility",b:"<p>This website works with a keyboard and screen readers, supports light and dark mode, and fits any screen size.</p><p>If something is hard to use, email hello@monsoonbean.example.</p>"},
+    cookies:{t:"Cookie preferences",b:'<label class="check"><input type="checkbox" checked disabled> Essential (needed for cart and sign in)</label><label class="check"><input type="checkbox" id="ckA"> Analytics</label><label class="check"><input type="checkbox" id="ckM"> Marketing</label><button class="btn btn-ink" id="saveCookies">Save preferences</button>'}
+  };
+  function openInfo(k){
+    $("infoTitle").textContent = LEGAL[k].t; $("infoBody").innerHTML = LEGAL[k].b;
+    if (k === "cookies"){ var c = load("mb-cookies", {}); $("ckA").checked = !!c.a; $("ckM").checked = !!c.m; }
+    $("infoModal").hidden = false;
+  }
+
+  /* ================= NEWSLETTER ================= */
+  $("newsForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var v = $("newsEmail").value.trim(), m = $("newsMsg"); m.hidden = false;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){ m.style.color = "var(--danger)"; m.textContent = "Enter an email address like name@example.com."; return; }
+    m.style.color = ""; m.textContent = "You're subscribed. Look out for the Monday letter."; this.reset();
+  });
+
+  /* ================= REVIEWS ================= */
+  var SAMPLE_REVIEWS = [
+    {name:"Sample guest",r:5,store:"Lower Parel",text:"The Reserve Bar is beautiful in the evening. The cardamom latte was perfectly balanced, not too sweet.",d:"2026-10-04"},
+    {name:"Sample guest",r:5,store:"Koregaon Park",text:"Quiet library corner, fast Wi-Fi and a filter kaapi that tastes like home. My new work spot.",d:"2026-09-28"},
+    {name:"Sample guest",r:4,store:"Indiranagar",text:"Watching the roaster while you drink is a great touch. Cold brew was smooth. Seating fills up on weekends.",d:"2026-09-21"},
+    {name:"Sample guest",r:5,store:"Bandra West",text:"Sat in the window booth during the rain with a hot chocolate and kanda bhaji. Exactly what a monsoon day needs.",d:"2026-09-14"}
+  ];
+  var myReviews = load("mb-reviews", []);
+  function starStr(n){ var s = ""; for (var i=1;i<=5;i++) s += i <= Math.round(n) ? "★" : "☆"; return s; }
+  function renderReviews(){
+    var all = myReviews.concat(SAMPLE_REVIEWS.map(function(r){ r.sample = true; return r; }));
+    var avg = all.reduce(function(a,r){ return a + r.r; },0) / all.length;
+    var counts = [0,0,0,0,0,0]; all.forEach(function(r){ counts[r.r]++; });
+    $("rvSum").innerHTML = '<div class="avg">'+avg.toFixed(1)+'</div><div class="stars" aria-label="'+avg.toFixed(1)+' out of 5">'+starStr(avg)+'</div><p class="note">Based on '+all.length+' reviews</p><div class="bars">' +
+      [5,4,3,2,1].map(function(n){ var pc = Math.round(counts[n]/all.length*100); return '<div><span>'+n+' ★</span><i><b style="width:'+pc+'%"></b></i><span>'+counts[n]+'</span></div>'; }).join("") + '</div>';
+    $("rvList").innerHTML = all.slice(0,8).map(function(r){
+      var d = new Date(r.d);
+      return '<article class="review"><div class="stars" aria-label="'+r.r+' out of 5">'+starStr(r.r)+'</div><p>“'+esc(r.text)+'”</p>' +
+        '<div class="who"><span class="avatar">'+esc(r.name.charAt(0).toUpperCase())+'</span><span>'+esc(r.name)+'<small>'+esc(r.store)+' · '+d.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})+'</small></span></div>' +
+        (r.sample ? '<span class="sample">Sample</span>' : '') + '</article>';
+    }).join("");
+  }
+  $("rvStore").innerHTML = STORES.map(function(s){ return '<option>'+s.n+'</option>'; }).join("");
+  function openReview(){ var me = currentUser(); if (me) $("rvName").value = me.name; $("rvErr").hidden = true; $("reviewModal").hidden = false; }
+  $("reviewModal").addEventListener("click", function(e){ if (e.target === this) this.hidden = true; });
+  $("reviewForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var pick = this.querySelector("input[name=rate]:checked"), name = $("rvName").value.trim(), text = $("rvText").value.trim(), err = $("rvErr");
+    if (!pick){ err.textContent = "Choose a rating from 1 to 5 stars."; err.hidden = false; return; }
+    if (!name){ err.textContent = "Enter your name."; err.hidden = false; return; }
+    if (text.length < 10){ err.textContent = "Write at least a few words about your visit."; err.hidden = false; return; }
+    myReviews.unshift({name:name, r:+pick.value, store:$("rvStore").value, text:text, d:new Date().toISOString().slice(0,10)});
+    store("mb-reviews", myReviews); this.reset(); $("reviewModal").hidden = true; renderReviews(); toast("Thanks! Your review is posted");
+  });
+
+  /* ================= CONTACT & SUPPORT ================= */
+  var tickets = load("mb-tickets", []);
+  function renderTickets(){
+    if (!tickets.length){ $("ticketArea").innerHTML = ""; return; }
+    $("ticketArea").innerHTML = '<h3 style="font-size:24px;margin-top:32px">Your support requests</h3><ul class="tickets">' + tickets.slice(0,5).map(function(t){
+      return '<li><span><strong>'+t.id+'</strong> · '+esc(t.topic)+'</span><span class="tag">Reply within 24 h</span></li>';
+    }).join("") + '</ul>';
+  }
+  $("contactForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var n = $("cName").value.trim(), em = $("cEmail").value.trim(), msg = $("cMsg").value.trim(), err = $("cErr");
+    if (!n){ err.textContent = "Enter your name."; err.hidden = false; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ err.textContent = "Enter an email address like name@example.com."; err.hidden = false; return; }
+    if (msg.length < 10){ err.textContent = "Tell us a little more so we can help."; err.hidden = false; return; }
+    err.hidden = true;
+    var id = "SUP-" + Math.floor(10000 + Math.random()*90000);
+    tickets.unshift({id:id, topic:$("cTopic").value, t:Date.now()}); store("mb-tickets", tickets);
+    $("cOk").innerHTML = "<strong>Message received.</strong> Your reference number is <strong>"+id+"</strong>. We'll reply to "+esc(em)+" within 24 hours.";
+    $("cOk").hidden = false; this.reset(); renderTickets();
+  });
+
+  function selectText(el){ try { var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); toast("Press Ctrl+C to copy"); } catch(e){} }
+
+  /* ================= QUIET LUXURY TOUCHES ================= */
+  var RM = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  /* hero title: words rise once on load */
+  (function(){
+    var h = $("heroTitle"), i = 0;
+    Array.prototype.slice.call(h.childNodes).forEach(function(k){
+      if (k.nodeType === 3){
+        var frag = document.createDocumentFragment();
+        k.textContent.split(/(\s+)/).forEach(function(part){
+          if (!part) return;
+          if (/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(part)); return; }
+          var sp = document.createElement("span"); sp.className = "w"; sp.style.setProperty("--i", i++); sp.textContent = part; frag.appendChild(sp);
+        });
+        h.replaceChild(frag, k);
+      } else if (k.nodeType === 1){ k.classList.add("w"); k.style.setProperty("--i", i++); }
+    });
+  })();
+
+  /* header settles on scroll */
+  var header = document.querySelector(".header");
+  function onScroll(){ header.classList.toggle("scrolled", window.pageYOffset > 40); }
+  window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  /* major blocks settle in, once */
+  var RV_SEL = ".sec-head,.feature,.why,.story,.gallery,.band,.duo,.rv-top,.news,.origins,.roast,.tiers,.help-cards,.support";
+  var io = (!RM && "IntersectionObserver" in window) ? new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, {rootMargin:"0px 0px -6% 0px", threshold:0.06}) : null;
+  function armReveal(){
+    if (!io) return;
+    var vh = window.innerHeight, els = document.querySelectorAll(RV_SEL);
+    for (var i=0;i<els.length;i++){
+      var el = els[i]; if (el.dataset.rv || el.offsetParent === null) continue;
+      el.dataset.rv = "1";
+      if (el.getBoundingClientRect().top < vh * 0.9) continue;
+      el.classList.add("rv"); io.observe(el);
+    }
+  }
+
+  /* faint gold dust in the hero only */
+  (function(){
+    var c = $("dust"); if (RM || !c.getContext) return;
+    var ctx = c.getContext("2d"); if (!ctx) return;
+    var parts = [], W = 0, H = 0, running = true, dpr = Math.min(2, window.devicePixelRatio || 1);
+    function size(){ W = c.clientWidth; H = c.clientHeight; c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+    size(); window.addEventListener("resize", size);
+    for (var i=0;i<22;i++) parts.push({x:Math.random(), y:Math.random(), r:0.6 + Math.random()*1.8, s:0.00008 + Math.random()*0.00022, a:0.08 + Math.random()*0.22, w:Math.random()*6.28});
+    function frame(t){
+      if (!running) return;
+      ctx.clearRect(0,0,W,H);
+      for (var i=0;i<parts.length;i++){
+        var p = parts[i]; p.y -= p.s * 16; if (p.y < -0.05){ p.y = 1.05; p.x = Math.random(); }
+        var x = (p.x + Math.sin(t/3000 + p.w) * 0.008) * W, y = p.y * H;
+        var g = ctx.createRadialGradient(x,y,0,x,y,p.r*4);
+        g.addColorStop(0, "rgba(243,223,168," + p.a + ")"); g.addColorStop(1, "rgba(184,138,61,0)");
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,p.r*4,0,6.283); ctx.fill();
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function(en){ var v = en[0].isIntersecting; if (v && !running){ running = true; requestAnimationFrame(frame); } else if (!v) running = false; }).observe(c);
+  })();
+
+  function bumpCart(){ var c = $("openCart"); c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); }
+
+  /* ================= ONE CLICK HANDLER ================= */
+  document.addEventListener("click", function(e){
+    var t = e.target.closest ? e.target.closest("button,a") : e.target;
+    if (!t) { return; }
+    var d = t.dataset || {}, id = t.id;
+
+    if (d.openSub){ currentSub = d.openSub; query = ""; $("menuSearch").value = ""; renderMenu(); }
+    if (d.openCat){ var ci = -1; CATS.forEach(function(c,i){ if (c.name === d.openCat) ci = i; }); currentSub = CATS[ci].subs[0].id; query = ""; renderMenu(); }
+    if (d.sub){ currentSub = d.sub; query = ""; $("menuSearch").value = ""; renderMenu(); window.scrollTo(0, $("menuMain").getBoundingClientRect().top + window.pageYOffset - 120); return; }
+    if (d.back){ currentSub = null; query = ""; $("menuSearch").value = ""; renderMenu(); return; }
+    if (d.gocat){ currentSub = null; query = ""; $("menuSearch").value = ""; renderMenu(); var el = $("cat-"+d.gocat); if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.pageYOffset - 110); return; }
+    if (d.scroll){ var car = $("bestsellers"); car.scrollBy({left:(+d.scroll)*car.clientWidth*0.8, behavior:"smooth"}); return; }
+    if (d.add){
+      var m = MENU[+d.add - 1], s = m.sizes ? SIZES[+$("size-"+m.id).value] : null;
+      addLine(m.id+(s?s.n:""), m.name, s?s.n:null, m.price+(s?s.add:0)); bumpCart(); toast(m.name+" added to cart"); return;
+    }
+    if (d.inc){ cart[+d.inc].qty++; saveCart(); renderCart(); return; }
+    if (d.dec){ var i = +d.dec; cart[i].qty--; if (cart[i].qty < 1) cart.splice(i,1); saveCart(); renderCart(); return; }
+    if (d.design){ gc.design = d.design; renderGift(); return; }
+    if (d.amt){ gc.amt = +d.amt; renderGift(); return; }
+    if (d.legal){ openInfo(d.legal); return; }
+    if (d.city){ storeCity = d.city; renderStores(); return; }
+
+    if (d.copy){
+      var txt = $(d.copy).textContent;
+      try { navigator.clipboard.writeText(txt).then(function(){ toast("Copied "+txt); }, function(){ selectText($(d.copy)); }); } catch(err){ selectText($(d.copy)); }
+      return;
+    }
+    if (d.goto){ setTimeout(function(){ var el = $(d.goto); if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.pageYOffset - 100); }, 60); }
+    if (id === "writeReview"){ openReview(); return; }
+    if (id === "closeReview"){ $("reviewModal").hidden = true; return; }
+    if (id === "checkout"){
+      var me = currentUser();
+      if (!me){ closeCart(); openAuth("in", "Please sign in to place your order."); return; }
+      var b = bill(), earned = Math.floor(b.total/10), no = "MB-" + Math.floor(1000 + Math.random()*9000);
+      me.beans += earned; me.orders = (me.orders||[]).concat({t:Date.now(), no:no, total:b.total}); saveUsers();
+      var ready = new Date(Date.now()+10*60000), hh = ready.getHours(), mm = ready.getMinutes();
+      var time = ((hh%12)||12)+":"+(mm<10?"0":"")+mm+(hh<12?" am":" pm");
+      cart = []; saveCart(); renderCart(); renderAccount();
+      $("lines").innerHTML = '<div class="empty"><h3 style="margin-bottom:10px;color:var(--ink)">Order placed</h3>Order number <strong>'+no+'</strong><br>Ready at about <strong>'+time+'</strong>.<br>You paid <strong>'+rs(b.total)+'</strong>'+(b.off?' and saved <strong>'+rs(b.off)+'</strong>':'')+'.<br>You earned <strong>'+earned+' beans</strong>.</div>';
+      return;
+    }
+    if (id === "signIn" || id === "rewardsIn") openAuth("in");
+    if (id === "signUp" || id === "rewardsUp") openAuth("up");
+    if (id === "signOut"){ setSession(null); toast("You are signed out"); }
+    if (id === "tabIn") setMode("in");
+    if (id === "tabUp") setMode("up");
+    if (id === "closeAuth") closeAuth();
+    if (id === "closeInfo") $("infoModal").hidden = true;
+    if (id === "saveCookies"){ store("mb-cookies", {a:$("ckA").checked, m:$("ckM").checked}); $("infoModal").hidden = true; toast("Cookie preferences saved"); }
+  });
+  $("authModal").addEventListener("click", function(e){ if (e.target === this) closeAuth(); });
+  $("infoModal").addEventListener("click", function(e){ if (e.target === this) this.hidden = true; });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape"){ closeAuth(); $("infoModal").hidden = true; $("reviewModal").hidden = true; closeCart(); } });
+
+  /* ================= START ================= */
+  renderHome(); renderMenu(); renderOrigins(); renderStores(); renderGift(); renderAuth(); renderCart(); renderAccount(); renderReviews(); renderTickets(); route(); setTimeout(armReveal, 120);
+})();
+</script>
+</body>
+</html>
